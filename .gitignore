@@ -1,0 +1,20 @@
+# Secrets. Every .env.local in this repo holds real keys.
+.env
+.env.local
+.env*.local
+
+node_modules/
+.DS_Store
+*.log
+
+# Next.js build output (each app also has its own .gitignore)
+.next/
+out/
+next-env.d.ts
+
+# Supabase local stack
+supabase/.branches/
+supabase/.temp/
+
+# Verification screenshots. Regenerate them with the scripts in scripts/.
+scrollcraft/builds/*/lab/

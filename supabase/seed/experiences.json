@@ -1,0 +1,39 @@
+[
+  {
+    "kind": "work",
+    "title": "Junior Backend Developer",
+    "organization": "HubX",
+    "location": "İzmir, Türkiye",
+    "is_current": true,
+    "summary": "AI Lab department, working on the MarketingX project.",
+    "highlights": []
+  },
+  {
+    "kind": "venture",
+    "title": "Partner",
+    "organization": "WaterLog",
+    "location": "",
+    "is_current": true,
+    "summary": "Co-owner of the company.",
+    "highlights": []
+  },
+  {
+    "kind": "leadership",
+    "title": "President",
+    "organization": "Software Society, İzmir Institute of Technology",
+    "location": "İzmir, Türkiye",
+    "is_current": false,
+    "summary": "Led the university's software society for three years during my undergraduate studies.",
+    "highlights": []
+  },
+  {
+    "kind": "education",
+    "title": "B.Sc. in Computer Engineering",
+    "organization": "İzmir Institute of Technology",
+    "location": "İzmir, Türkiye",
+    "end_date": "2026-06-01",
+    "is_current": false,
+    "summary": "Graduation thesis on small language models and hybrid architectures.",
+    "highlights": []
+  }
+]

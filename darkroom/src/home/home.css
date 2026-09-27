@@ -1,0 +1,837 @@
+/* ==========================================================================
+   The screening. Six scenes, each a different device, meeting at hard edges.
+
+   The gate law: projected media sits inside a gate and type sits in the room
+   around it, never on the picture, so no scene needs a scrim. The one
+   exception is the darkroom, where the picture is a physical print in a tray.
+
+   Everything here is page code. The engine only publishes --sc-p (each act's
+   progress, 0 to 1) and drives the cues, the clip, the rail and the pins.
+   ========================================================================== */
+
+.screening {
+  background: var(--room);
+}
+
+.scene {
+  position: relative;
+  background: var(--room);
+}
+
+/* Without JavaScript nothing is waiting for a cue: show everything. */
+.no-js [data-sc-cue],
+.no-js [data-sc-in],
+.no-js [data-sc-stagger] > * {
+  opacity: 1;
+  transform: none;
+}
+
+.no-js [data-sc-act="pan"] [data-sc-stage] {
+  overflow-x: auto;
+}
+
+/* The marquee bar on the home page is fixed and opaque: it is the top masking
+   of the gate, and nothing ever scrolls behind it unreadably. */
+.bar--over {
+  background: var(--room);
+}
+
+/* ============================================================ 1. opening ==
+   A screen in a dark auditorium. The gate opens from a line on load, the
+   picture flickers up like a lamp striking, and the scroll runs the projector.
+   The picture never fades out: it leaves with its stage while the credits
+   wipe up over it on black, which is a hard edge, as the grammar asks. */
+
+/* The screen and the titles under it share one width, the gate's, and sit in
+   the middle of the room the way a screen does. Inside that width the type is
+   asymmetric: the name on the left, the line and the actions on the right. */
+.opening__stage {
+  --gate-h: min(54svh, calc((100vw - 2 * var(--gutter)) / 2.39));
+  --gate-w: calc(var(--gate-h) * 2.39);
+  display: grid;
+  align-content: start;
+  padding-top: calc(var(--bar-h) + clamp(0.75rem, 3vh, 2rem));
+  background: var(--room);
+}
+
+/* Light from the screen falls back into the room. */
+.opening__stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(70% 55% at 36% 38%, rgb(92 58 32 / 0.34) 0%, rgb(40 26 16 / 0.16) 45%, transparent 72%);
+  opacity: calc(1 - var(--sc-p, 0) * 0.85);
+}
+
+.opening__screen {
+  position: relative;
+  width: min(100% - 2 * var(--gutter), var(--gate-w));
+  margin-inline: auto;
+}
+
+.opening__gate {
+  height: var(--gate-h);
+  aspect-ratio: 2.39 / 1;
+  max-width: 100%;
+  transform-origin: 30% 45%;
+  transform: scale(calc(1 + var(--sc-p, 0) * 0.09));
+  animation: gate-open 1150ms var(--ease) both;
+  box-shadow: 0 0 0 1px rgb(236 231 222 / 0.05), 0 40px 90px -40px rgb(0 0 0 / 0.9);
+}
+
+/* The lamp: a faint flicker, as projected film always has. */
+.opening__gate::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: #000;
+  opacity: 0;
+  animation: flicker 2.4s steps(1, end) infinite;
+}
+
+@keyframes gate-open {
+  0% {
+    clip-path: inset(49.6% 0 49.6% 0);
+    filter: brightness(2.4);
+  }
+  55% {
+    clip-path: inset(0 0 0 0);
+    filter: brightness(1.4);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    filter: brightness(1);
+  }
+}
+
+@keyframes flicker {
+  0% { opacity: 0; }
+  7% { opacity: 0.05; }
+  9% { opacity: 0; }
+  31% { opacity: 0.03; }
+  33% { opacity: 0; }
+  58% { opacity: 0.06; }
+  60% { opacity: 0.01; }
+  62% { opacity: 0; }
+  84% { opacity: 0.04; }
+  86% { opacity: 0; }
+}
+
+.opening__titles {
+  position: relative;
+  display: grid;
+  gap: 1.1rem 3rem;
+  width: min(100% - 2 * var(--gutter), var(--gate-w));
+  margin: clamp(1rem, 3.2vh, 2.25rem) auto 0;
+  align-items: end;
+}
+
+@media (min-width: 900px) {
+  .opening__titles {
+    grid-template-columns: auto minmax(0, 25rem);
+    justify-content: space-between;
+  }
+}
+
+.opening__name {
+  margin: 0;
+  font-size: clamp(3.6rem, 1.4rem + 8.4vw, 9.5rem);
+}
+
+.opening__line {
+  margin: 0;
+}
+
+.opening__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+/* The tall gate, for phones held upright: the projector framed as a portrait. */
+@media (max-width: 860px) and (orientation: portrait) {
+  .opening__stage {
+    --gate-h: min(50svh, calc((100vw - 2 * var(--gutter)) * 1.25));
+    --gate-w: calc(100vw - 2 * var(--gutter));
+  }
+  .opening__gate {
+    aspect-ratio: 4 / 5;
+    margin-inline: auto;
+    transform-origin: 50% 40%;
+  }
+  .opening__name {
+    font-size: clamp(3.4rem, 1rem + 12vw, 5.5rem);
+  }
+}
+
+/* A short landscape phone: the gate gives way to the title. */
+@media (max-height: 520px) and (orientation: landscape) {
+  .opening__stage {
+    --gate-h: 46svh;
+  }
+  .opening__name {
+    font-size: clamp(2.6rem, 1rem + 6vw, 4rem);
+  }
+  .opening__actions {
+    margin-top: 0.6rem;
+  }
+}
+
+/* ============================================================ 2. credits ==
+   Opening credits on black: one role and one name at a time, centred, the
+   way credits are set. Every card holds the same place and crossfades. */
+
+.credits-scene__stage {
+  display: grid;
+  place-items: center;
+  padding-top: var(--bar-h);
+  background: var(--room);
+}
+
+.credit {
+  grid-area: 1 / 1;
+  max-width: 62rem;
+  padding-inline: var(--gutter);
+  text-align: center;
+}
+
+.credits-scene__stage > .sr-only {
+  grid-area: 1 / 1;
+}
+
+.credit__role {
+  margin: 0 0 1.1rem;
+}
+
+.credit__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 1.4rem + 6.2vw, 7.5rem);
+  line-height: 0.9;
+  letter-spacing: 0.012em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  color: var(--print);
+}
+
+.credit__name--close {
+  font-size: clamp(2.6rem, 1.3rem + 5vw, 6rem);
+}
+
+.credit__note {
+  margin: 1.1rem auto 0;
+  max-width: 40ch;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.credit__body {
+  margin: 1.25rem auto 0;
+}
+
+.credit__link {
+  display: inline-block;
+  margin-top: 1.4rem;
+}
+
+/* ================================================================ 3. work ==
+   The projects run sideways through the gate as a strip of 35mm film. Every
+   frame is a link; a project with no picture shows its own title card. Items
+   settle in sequence as the strip arrives, so it reads as film being pulled
+   through rather than a slideshow on rails. */
+
+.work__stage {
+  display: flex;
+  align-items: center;
+  padding-top: var(--bar-h);
+  background: var(--room);
+}
+
+.work__rail {
+  align-items: center;
+  gap: clamp(2.5rem, 5vw, 5rem);
+  padding-inline: var(--gutter) clamp(3rem, 10vw, 9rem);
+}
+
+.work__lead {
+  flex: 0 0 min(25rem, 82vw);
+}
+
+.work__lead .t-h2 {
+  margin: 0;
+}
+
+.work__body {
+  margin: 1.1rem 0 0;
+}
+
+.work__film {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.shot {
+  --arrive: clamp(0, calc(var(--sc-p, 1) * 4.2 - var(--i, 0) + 0.7), 1);
+  --shot-w: clamp(17rem, 34vw, 31rem);
+  flex: 0 0 auto;
+  width: var(--shot-w);
+  /* A whole number of perforations, so the strip is seamless from frame to frame. */
+  width: round(down, var(--shot-w), 24px);
+  opacity: calc(0.5 + var(--arrive) * 0.5);
+  transform: translateY(calc((1 - var(--arrive)) * 14px));
+}
+
+/* On a phone the strip fills the width: a frame is most of the screen. */
+@media (max-width: 767px) {
+  .shot {
+    --shot-w: min(80vw, 23rem);
+  }
+}
+
+.shot__film {
+  padding: 34px 12px 48px;
+}
+
+.shot__frame {
+  display: block;
+  outline-offset: -2px;
+}
+
+.shot__frame .frame {
+  transition: filter var(--d-normal) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .shot__frame:hover .frame {
+    filter: brightness(1.15);
+  }
+}
+
+.shot__edge {
+  position: absolute;
+  left: 16px;
+  bottom: 28px;
+}
+
+.shot__caption {
+  padding: 1.1rem 12px 0;
+  max-width: 30rem;
+}
+
+.shot__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 1.3rem + 1vw, 2.2rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+
+.shot__title a {
+  color: var(--print);
+  text-decoration: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .shot__title a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--red);
+    text-underline-offset: 0.14em;
+  }
+}
+
+.shot__summary {
+  display: -webkit-box;
+  margin: 0.5rem 0 0;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+.work__end {
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
+  flex: 0 0 auto;
+}
+
+/* ========================================================== 4. programme ==
+   The listing, like a repertory cinema's: what kind, the title, the runtime. */
+
+.programme {
+  padding-block: var(--section);
+  border-top: 1px solid var(--rule);
+}
+
+.programme__grid {
+  display: grid;
+  gap: clamp(2rem, 5vw, 5rem);
+}
+
+@media (min-width: 960px) {
+  .programme__grid {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.35fr);
+    align-items: start;
+  }
+  .programme__head {
+    position: sticky;
+    top: calc(var(--bar-h) + 2.5rem);
+  }
+}
+
+.programme__head .t-h2 {
+  margin: 0;
+}
+
+.programme__body {
+  margin: 1.1rem 0 0;
+}
+
+.programme__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1.3rem;
+  margin: 1.6rem 0 0;
+}
+
+.programme__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--rule-strong);
+}
+
+.programme__row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr) auto;
+  gap: 0.4rem 1.5rem;
+  align-items: baseline;
+  padding-block: 1.15rem;
+  border-bottom: 1px solid var(--rule);
+  transition: background-color var(--d-micro) var(--ease);
+}
+
+.programme__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 1.25rem + 1vw, 2.15rem);
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: var(--print);
+  text-decoration: none;
+  text-wrap: balance;
+}
+
+.programme__title::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.programme__runtime {
+  white-space: nowrap;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .programme__row:hover {
+    background: var(--room-2);
+  }
+  .programme__row:hover .programme__title {
+    text-decoration: underline;
+    text-decoration-color: var(--red);
+    text-underline-offset: 0.12em;
+  }
+}
+
+.programme__row:has(a:focus-visible) {
+  background: var(--room-2);
+}
+
+@media (max-width: 639px) {
+  .programme__row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.35rem;
+  }
+}
+
+/* =========================================================== 5. darkroom ==
+   The peak. The stage arrives already under the safelight, so the red wipes
+   up over the programme like a door closing on the daylight. Then silence,
+   then the paper, then the print develops under the scroll; then the white
+   light, and the finished print for the first time in neutral tones.
+
+   The timeline, in act progress, matches DevelopPrint.tsx:
+     0.10 to 0.20  the paper is laid in the tray
+     0.20 to 0.70  development
+     0.72          the switch: safelight off, white light on
+     0.76 to 1.00  the caption
+
+   --light is a step (0 or 1), so there is no pink in-between to stop on; the
+   transitions below give the switch its few frames, like a lamp warming. */
+
+.darkroom {
+  --lay: clamp(0, calc((var(--sc-p, 1) - 0.1) / 0.1), 1);
+  --light: clamp(0, calc((var(--sc-p, 1) - 0.72) * 100000), 1);
+  --dev-css: clamp(0, calc((var(--sc-p, 1) - 0.2) / 0.5), 1);
+}
+
+.darkroom__stage {
+  background: var(--room);
+}
+
+.darkroom__red {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(90% 70% at 50% -12%, var(--darkroom-glow) 0%, var(--darkroom) 58%, #0e0201 100%);
+  opacity: calc(1 - var(--light));
+  transition: opacity 240ms var(--ease);
+}
+
+.darkroom__lamp {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(60% 65% at 36% 54%, rgb(236 231 222 / 0.085) 0%, rgb(236 231 222 / 0.02) 45%, transparent 72%);
+  opacity: var(--light);
+  transition: opacity 240ms var(--ease);
+}
+
+.darkroom__layout {
+  position: relative;
+  display: grid;
+  align-content: center;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  height: 100%;
+  max-width: 1360px;
+  margin-inline: auto;
+  padding: calc(var(--bar-h) + 1rem) var(--gutter) 1.5rem;
+}
+
+@media (min-width: 960px) {
+  .darkroom__layout {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    align-items: center;
+    align-content: stretch;
+  }
+}
+
+.darkroom__tray {
+  opacity: var(--lay);
+  transform: translateY(calc((1 - var(--lay)) * 18px)) rotate(-0.7deg);
+}
+
+.print__paper {
+  padding: clamp(0.55rem, 2.1%, 1.35rem);
+  max-height: calc(100svh - var(--bar-h) - 3rem);
+  background: color-mix(in oklab, #91261a calc((1 - var(--light)) * 100%), #ebe7e0);
+  box-shadow: 0 2px 3px rgb(0 0 0 / 0.5), 0 34px 70px -34px rgb(0 0 0 / 0.9);
+  transition: background-color 240ms var(--ease);
+}
+
+/* No background of its own: the tray is rotated, and a dark box behind the
+   picture would bleed through the anti-aliased edge as a dashed line. The
+   paper shows through instead, which is what a real border looks like. */
+.print__image {
+  position: relative;
+  overflow: hidden;
+  max-height: calc(100svh - var(--bar-h) - 5.5rem);
+  margin-inline: auto;
+}
+
+.print__image picture,
+.print__still {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.print__still {
+  object-fit: cover;
+}
+
+.print__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.print[data-mode="gl"] .print__canvas {
+  opacity: 1;
+}
+
+.print[data-mode="gl"] .print__still {
+  visibility: hidden;
+}
+
+/* Waiting for WebGL, or without it: the same timing as a fade under a red
+   tint. Without JavaScript --sc-p is absent and falls back to 1, which is the
+   finished print in white light. */
+.print[data-mode="css"] .print__still {
+  opacity: var(--dev-css);
+  filter: grayscale(1);
+}
+
+.print[data-mode="css"] .print__image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: #91261a;
+  mix-blend-mode: multiply;
+  opacity: calc(1 - var(--light));
+  transition: opacity 240ms var(--ease);
+}
+
+.darkroom__caption {
+  max-width: 27rem;
+}
+
+.darkroom__caption .t-h2 {
+  margin: 0;
+}
+
+.darkroom__body {
+  margin: 1.1rem 0 0;
+}
+
+.darkroom__cta {
+  margin-top: 1.6rem;
+}
+
+.darkroom__credit {
+  margin: 1.4rem 0 0;
+}
+
+@media (max-width: 959px) {
+  .darkroom__layout {
+    align-content: center;
+  }
+  .darkroom__caption .t-h2 {
+    font-size: clamp(2rem, 1.4rem + 3vw, 2.8rem);
+  }
+  .darkroom__body {
+    font-size: 1.0625rem;
+  }
+}
+
+/* ====================================================== 6. contact sheet ==
+   The close: a contact sheet of the whole site on a sheet of paper lying in
+   the room. One frame is circled in red grease pencil, and that frame is the
+   one action on the page. It holds; nothing after it but the small print. */
+
+.sheet {
+  padding-block: var(--section) clamp(3rem, 7vw, 5.5rem);
+}
+
+.sheet__grid {
+  display: grid;
+  gap: clamp(2.25rem, 5vw, 3.5rem);
+}
+
+@media (min-width: 1000px) {
+  /* The whole sheet on the last screen: the words beside it, not above it. */
+  .sheet__grid {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.5fr);
+    align-items: stretch;
+  }
+  .sheet__side {
+    align-self: stretch;
+    display: grid;
+    align-content: space-between;
+    gap: 2rem;
+  }
+}
+
+.sheet__head .t-h2 {
+  margin: 0;
+}
+
+.sheet__body {
+  margin: 1.1rem 0 0;
+}
+
+.sheet__paper {
+  position: relative;
+  display: grid;
+  gap: clamp(0.9rem, 2.2vw, 1.5rem);
+  max-width: 64rem;
+  margin-top: clamp(2.25rem, 5vw, 3.5rem);
+  padding: clamp(1rem, 3.4vw, 2.5rem) clamp(0.9rem, 3vw, 2.25rem) clamp(1.6rem, 4vw, 3rem);
+  background: #e6e1d7;
+  rotate: -0.45deg;
+  box-shadow: 0 3px 4px rgb(0 0 0 / 0.45), 0 50px 100px -50px rgb(0 0 0 / 0.95);
+}
+
+@media (min-width: 1000px) {
+  .sheet__paper {
+    /* The sheet is very nearly square (measured: 0.97 of its width), so its
+       width is set from the screen height: on the last screen the whole sheet
+       sits between the bar and the bottom padding, with nothing cut off. */
+    width: min(100%, calc((100svh - var(--bar-h) - 8.5rem) * 1.03));
+    justify-self: end;
+    margin-top: 0;
+  }
+}
+
+.sheet__strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  padding: 24px 6px 34px;
+  list-style: none;
+  --perf: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='12'><rect x='5' y='2.5' width='8' height='7' rx='1.4' fill='%234a433d'/></svg>");
+}
+
+.sheet__strip::before,
+.sheet__strip::after {
+  height: 12px;
+  background-size: 18px 12px;
+}
+
+.sheet__strip::before {
+  top: 7px;
+}
+
+.sheet__strip::after {
+  bottom: 7px;
+}
+
+.sheet__cell {
+  position: relative;
+  padding-inline: 6px;
+}
+
+.sheet__frame {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 2;
+  container-type: inline-size;
+  text-decoration: none;
+  outline-offset: 3px;
+}
+
+.sheet__frame .title-card {
+  transition: filter var(--d-normal) var(--ease);
+}
+
+.sheet__frame .title-card__text {
+  font-size: clamp(0.95rem, 14cqi, 2.4rem);
+  letter-spacing: 0.04em;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .sheet__frame:hover .title-card {
+    filter: brightness(1.35);
+  }
+}
+
+/* Edge print sits in the rebate between the frame and the perforations. */
+.sheet__edge {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: -15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.54rem;
+  letter-spacing: 0.16em;
+}
+
+/* The grease pencil: drawn once, when the sheet comes into view. */
+.grease {
+  position: absolute;
+  left: -10%;
+  top: -24%;
+  width: 120%;
+  height: 148%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.grease path {
+  fill: none;
+  stroke: var(--red);
+  stroke-width: 3.4px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.is-in .grease path {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1100ms cubic-bezier(0.45, 0.05, 0.25, 1) 350ms;
+}
+
+.no-js .grease path {
+  stroke-dashoffset: 0;
+}
+
+.sheet__foot {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.sheet__elsewhere {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 1.2rem;
+  margin: 0;
+}
+
+/* ====================================================== reduced motion == */
+
+@media (prefers-reduced-motion: reduce) {
+  .opening__gate {
+    animation: none;
+    transform: none;
+  }
+  .opening__gate::after {
+    animation: none;
+  }
+  /* The engine hands the rail back as an ordinary horizontal scroll region.
+     Smaller frames let every project show without having to discover that. */
+  .shot {
+    --shot-w: clamp(13rem, 18vw, 19rem);
+    opacity: 1;
+    transform: none;
+  }
+  .work__lead {
+    flex-basis: min(22rem, 82vw);
+  }
+  /* The darkroom keeps its meaning without the drama: the finished print, in
+     white light, with its caption. */
+  .darkroom__red {
+    display: none;
+  }
+  .darkroom__lamp {
+    opacity: 1;
+  }
+  .darkroom__tray {
+    opacity: 1;
+    transform: rotate(-0.7deg);
+  }
+  .print__paper {
+    background: #ebe7e0;
+  }
+  .is-in .grease path,
+  .grease path {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+}

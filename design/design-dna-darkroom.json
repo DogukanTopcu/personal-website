@@ -1,0 +1,233 @@
+{
+  "meta": {
+    "name": "Darkroom",
+    "description": "The second direction for Doğukan Topçu's site. A screening in a dark room: projected media inside a letterbox gate, credits on black, a film strip for the work, a darkroom under red safelight where a print develops, and a contact sheet to close. Dark only, one accent: safelight red.",
+    "source_references": [
+      "Described style. Owner chose the 'Darkroom' option from the first interview and asked for it as a second site on 2026-09-27.",
+      "Silent film intertitles and opening credits on black",
+      "Anamorphic 2.39:1 letterboxing, type in the masking like subtitles",
+      "Silver gelatin prints coming up in the developer tray under a safelight",
+      "Contact sheets marked up in red grease pencil"
+    ],
+    "created_at": "2026-09-27"
+  },
+  "design_system": {
+    "color": {
+      "palette_type": "monochromatic",
+      "primary": { "hex": "#ECE7DE", "role": "Print white. Headings, primary buttons, the paper of a print." },
+      "secondary": { "hex": "#0C0B0A", "role": "The room. Page ground everywhere except the darkroom scene." },
+      "accent": { "hex": "#E0473A", "role": "Safelight red. The darkroom scene, grease pencil marks, focus rings, the active state. 4.80:1 on the ground, so it can carry small text." },
+      "neutral": {
+        "scale": ["#ECE7DE", "#D9D3C9", "#A39C92", "#857E74", "#3A342F", "#2A2622", "#1C1917", "#141210", "#0C0B0A"],
+        "usage": "Lightest two are text (#ECE7DE headings, #D9D3C9 long-form prose to avoid halation). #A39C92 secondary text (7.9:1). #857E74 faint labels (4.9:1). #3A342F and #2A2622 are rules. The last three are surfaces. Warm neutral throughout, never cold grey."
+      },
+      "semantic": { "success": "#7FB08A", "warning": "#D9A441", "error": "#E0473A", "info": "#A39C92" },
+      "surface": { "background": "#0C0B0A", "card": "#141210", "elevated": "#1C1917" },
+      "contrast_strategy": "Light on dark. Prose at 13:1, never pure white on pure black. Type never sits on footage: it lives in the letterbox masking, so no scrim is needed anywhere.",
+      "darkroom": {
+        "ground": "#1A0403",
+        "glow": "#5B100B",
+        "safelight": "#FF3B2A",
+        "role": "The only full-screen colour change on the site, used once, in the peak scene."
+      }
+    },
+    "typography": {
+      "type_scale": {
+        "display": { "size": "clamp(4rem, 2rem + 9vw, 10rem)", "weight": "400", "line_height": "0.86", "tracking": "0.005em" },
+        "heading_1": { "size": "clamp(3.25rem, 1.8rem + 5vw, 6.5rem)", "weight": "400", "line_height": "0.9", "tracking": "0.01em" },
+        "heading_2": { "size": "clamp(2.25rem, 1.6rem + 2.4vw, 3.5rem)", "weight": "400", "line_height": "0.95", "tracking": "0.012em" },
+        "heading_3": { "size": "clamp(1.5rem, 1.3rem + 0.8vw, 1.9rem)", "weight": "400", "line_height": "1.02", "tracking": "0.015em" },
+        "body": { "size": "1.1875rem", "weight": "400", "line_height": "1.72", "tracking": "0.003em" },
+        "body_small": { "size": "1rem", "weight": "400", "line_height": "1.6", "tracking": "0.004em" },
+        "caption": { "size": "0.875rem", "weight": "400", "line_height": "1.5", "tracking": "0.005em" },
+        "overline": { "size": "0.72rem", "weight": "500", "line_height": "1.3", "tracking": "0.14em" }
+      },
+      "font_families": {
+        "heading": "League Gothic (wdth 75 to 100). Capitals for marquees, page titles, nav and buttons; titles of written work keep their case.",
+        "body": "Newsreader (opsz 6 to 72), with its italic for the titles of films and books.",
+        "mono": "DM Mono, only for labels, film edge print, dates and code."
+      },
+      "font_style_notes": "League Gothic is the condensed American gothic of early twentieth century film posters and title cards. Newsreader is a screen reading serif chosen because the site is a publication (essays, reviews, fiction, courses) and film criticism is read in serif; its italic marks film and book titles the way criticism always has. Light text on dark gets one step more line height and a touch more tracking."
+    },
+    "spacing": {
+      "base_unit": "4px",
+      "scale": [4, 8, 12, 16, 24, 32, 48, 64, 96, 128, 192],
+      "content_density": "spacious",
+      "section_rhythm": "Scenes are separated by hard edges, not padding. Inside inner pages, clamp(4.5rem, 9vw, 9rem) between sections, more above a heading than below."
+    },
+    "layout": {
+      "grid_system": "12-column CSS grid inside 1360px, with full-bleed gates that ignore the grid",
+      "max_content_width": "1360px",
+      "columns": 12,
+      "gutter": "clamp(1.25rem, 4vw, 3.5rem)",
+      "breakpoints": { "sm": "640px", "md": "768px", "lg": "1024px", "xl": "1280px", "2xl": "1536px" },
+      "alignment_tendency": "mixed: credits and intertitles centred by convention, everything else left aligned"
+    },
+    "shape": {
+      "border_radius": { "small": "0px", "medium": "0px", "large": "3px", "pill": "0px" },
+      "border_usage": "subtle 1px",
+      "divider_style": "1px warm hairlines. A gate has a 3px radius, like a projector's aperture. Nothing else is rounded."
+    },
+    "elevation": {
+      "shadow_style": "none",
+      "levels": {
+        "low": "0 0 0 1px #2A2622",
+        "medium": "0 1px 2px rgb(0 0 0 / 0.5), 0 16px 36px -18px rgb(0 0 0 / 0.8)",
+        "high": "0 2px 4px rgb(0 0 0 / 0.55), 0 36px 80px -30px rgb(0 0 0 / 0.9)"
+      },
+      "depth_cues": "overlapping layers"
+    },
+    "iconography": { "style": "outline", "stroke_weight": "1.5px (Phosphor regular)", "size_scale": [16, 20, 24], "preferred_set": "@phosphor-icons/react" },
+    "motion": {
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "duration_scale": { "micro": "150ms", "normal": "260ms", "macro": "900ms" },
+      "entrance_pattern": "Fade up from black, the way a shot fades in. 10px of rise at most.",
+      "exit_pattern": "Fade to black.",
+      "philosophy": "cinematic"
+    },
+    "components": {
+      "button_style": "Sharp rectangle, League Gothic capitals tracked 0.08em. Primary is print white with black type; on hover safelight red wipes in from the left. Secondary is a 1px print white outline that fills on hover.",
+      "input_style": "Sharp 1px box on the raised surface, label above in mono capitals, red focus ring.",
+      "card_style": "Avoided. Media sits in gates or on film strips; text groups by space and hairlines.",
+      "navigation_pattern": "A fixed marquee bar on black: wordmark left, sections in League Gothic capitals, one outlined CTA. On phones a full-screen black menu set like a credits list.",
+      "modal_style": "The lightbox is a projection: full black, the image in a gate, the caption in the masking below.",
+      "list_style": "Programme rows: date in mono on the left, title, then runtime on the right, sparse hairlines.",
+      "component_notes": "Film strips have sprocket holes and edge print that carries real data (discipline, year), never invented frame counts. Placeholders are unexposed frames: black with a thin rule and a focus mark."
+    }
+  },
+  "design_style": {
+    "aesthetic": {
+      "mood": ["nocturnal", "patient", "warm", "exact"],
+      "visual_metaphor": "A screening, and a darkroom behind the screen",
+      "era_influence": "Twentieth century cinema and analogue photography",
+      "genre": "cinematic editorial",
+      "personality_traits": ["observant", "quiet", "precise", "nostalgic without being sentimental"],
+      "adjectives": ["projected", "grainy", "letterboxed", "developed", "warm-black"]
+    },
+    "visual_language": {
+      "complexity": "moderate",
+      "ornamentation": "subtle accents",
+      "whitespace_usage": "Black space is the room. Generous, never empty by accident.",
+      "visual_weight_distribution": "Heavy condensed capitals against large calm fields of black",
+      "focal_strategy": "single hero element",
+      "contrast_level": "High between print white and the room, low within the room",
+      "texture_usage": "Film grain on a fixed overlay, slightly animated, static under reduced motion"
+    },
+    "composition": {
+      "hierarchy_method": "scale contrast",
+      "balance_type": "asymmetric",
+      "flow_direction": "Top to bottom like a reel, with one lateral passage for the work",
+      "grouping_strategy": "Gates and strips for media, space and hairlines for text",
+      "negative_space_role": "The dark auditorium around the screen"
+    },
+    "imagery": {
+      "photo_treatment": "Projected footage keeps its warm grade. Prints are silver gelatin black and white.",
+      "illustration_style": "None. The only drawn mark is the grease pencil circle.",
+      "graphic_elements": "Letterbox masking, film strips with sprocket holes and edge print, intertitle frames, contact sheet rebates",
+      "pattern_usage": "Sprocket holes only",
+      "image_shape": "2.39:1 gates on wide screens, 4:5 on phones, 3:2 prints, 2:3 posters for stories"
+    },
+    "interaction_feel": {
+      "feedback_style": "Light arrives: fills wipe in, frames lift out of the black",
+      "hover_behavior": "Red wipe on buttons, red underline on links, frames brighten from dim to full",
+      "transition_personality": "smooth glide",
+      "loading_style": "Unexposed frames: black with a faint rule, breathing slowly",
+      "microinteraction_density": "Low. The grain and the gate carry the atmosphere; components stay still."
+    },
+    "brand_voice_in_ui": {
+      "tone": "First person, plain, specific",
+      "formality": "Conversational but exact",
+      "cta_style": "direct imperative",
+      "empty_state_approach": "An unexposed frame and one line saying what will be there",
+      "error_tone": "Plain and practical"
+    }
+  },
+  "visual_effects": {
+    "overview": {
+      "effect_intensity": "moderate",
+      "performance_tier": "medium",
+      "fallback_strategy": "reduce to CSS: no clip is fetched under reduced motion, the develop shader falls back to a CSS fade without WebGL and to the finished print under reduced motion",
+      "primary_technology": "scroll-craft acts, HTML5 video scrubbing, one WebGL fragment shader"
+    },
+    "background_effects": {
+      "type": "video-bg",
+      "description": "The opening scene scrubs a projector clip inside a letterbox gate. Elsewhere the ground is flat warm black.",
+      "technology": "scroll-craft scrub device",
+      "params": { "color_palette": ["#0C0B0A", "#1A0403"], "speed": "scroll-driven", "density": "n/a", "opacity": "1", "blend_mode": "normal" }
+    },
+    "particle_systems": {
+      "enabled": false,
+      "type": "none",
+      "description": "Not used; the dust is in the footage.",
+      "technology": "none",
+      "params": { "count": 0, "shape": "none", "size_range": "none", "movement_pattern": "none", "color_behavior": "none", "interaction": "none", "spawn_area": "none" }
+    },
+    "3d_elements": {
+      "enabled": false,
+      "type": "none",
+      "description": "Not used.",
+      "technology": "none",
+      "params": { "renderer": "none", "lighting": "none", "camera": "none", "materials": "none", "geometry": "none", "post_processing": [], "interaction_model": "none" }
+    },
+    "shader_effects": {
+      "enabled": true,
+      "type": "custom-GLSL",
+      "description": "The develop shader: a black and white print where every pixel stays paper white until the development front reaches its own tone, so shadows appear first and the sky last. Under the safelight everything reads red; a second uniform switches to white light.",
+      "technology": "WebGL 1, one full-quad fragment shader, no library",
+      "params": {
+        "uniforms": "u_image, u_develop (0..1), u_light (0..1), u_grain_seed",
+        "vertex_manipulation": "none",
+        "fragment_output": "mix(paper, print, smoothstep(L * 0.62, L * 0.62 + 0.38, u_develop)), then mix(safelight, neutral, u_light)",
+        "noise_type": "hash grain",
+        "distortion": "none"
+      }
+    },
+    "scroll_effects": {
+      "parallax": { "enabled": true, "layers": "2", "depth_range": "The footage dollies inside the gate while the masking holds still", "speed_curve": "dwell remap on the scrub act" },
+      "scroll_triggered_animations": {
+        "enabled": true,
+        "trigger_points": "Six scenes: scrub 2.2, credits 2.2, work 2.4, programme flow, darkroom 3.8, contact sheet flow",
+        "animation_type": "fade-up",
+        "scrub_behavior": "scrubbed"
+      },
+      "scroll_morphing": { "enabled": true, "description": "The gate opens on load; the darkroom ground turns from black to safelight red and back to black under the scroll." }
+    },
+    "text_effects": {
+      "type": "split-letter-animate",
+      "description": "Kinetic lines on the opening title only. Credits crossfade whole.",
+      "technology": "scroll-craft kinetic device",
+      "params": { "split_strategy": "by-line", "animation_per_unit": "rise from a mask", "stagger": "across the cue window", "effect_style": "title card" }
+    },
+    "cursor_effects": {
+      "enabled": false,
+      "type": "none",
+      "description": "No custom cursor.",
+      "params": { "shape": "none", "size": "none", "blend_mode": "none", "trail": "none", "interaction_zone": "none" }
+    },
+    "image_effects": {
+      "type": "reveal-clip",
+      "description": "Frames on inner pages brighten from 55% to full as they enter, like a lamp coming up.",
+      "technology": "CSS opacity and filter with IntersectionObserver",
+      "params": { "filter_pipeline": "brightness", "hover_transform": "none", "reveal_animation": "brightness 0.55 to 1, 900ms", "distortion_type": "none" }
+    },
+    "glassmorphism_neumorphism": {
+      "enabled": false,
+      "style": "none",
+      "params": { "blur_radius": "0", "transparency": "0", "border_treatment": "none", "shadow_type": "none", "light_source_angle": "none" }
+    },
+    "canvas_drawings": {
+      "enabled": false,
+      "type": "none",
+      "description": "The develop shader uses a canvas but draws nothing generative.",
+      "technology": "none",
+      "params": { "draw_method": "none", "animation_loop": "none", "color_scheme": "none", "responsiveness": "none", "interaction": "none" }
+    },
+    "svg_animations": {
+      "enabled": true,
+      "type": "path-draw",
+      "description": "The grease pencil circle on the contact sheet draws itself once when the sheet comes into view.",
+      "params": { "animation_method": "stroke-dashoffset with pathLength", "path_morphing": "none", "stroke_animation": "draw on, 900ms", "filter_effects": "none" }
+    },
+    "composite_notes": "Grain is a fixed pointer-events-none overlay, animated in steps at a low frame rate, static under reduced motion. Everything projected lives inside a gate and all type lives outside it, so contrast never depends on the footage. The peak is the only place the ground changes colour."
+  }
+}

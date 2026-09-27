@@ -1,0 +1,427 @@
+/* ==========================================================================
+   Home page.
+
+   Two trees, one content. The flight is the worldflight: a fixed canvas, a
+   copy layer, a spacer. The static sheet is an ordinary document with the same
+   constructions drawn as inline SVG. The `data-flight` attribute on <html>
+   decides which one is displayed, and it is set by an inline script before the
+   first paint, so neither ever flashes.
+
+   The block below is the small part of the scroll-craft stylesheet that the
+   worldflight mechanism needs, mapped onto this site's tokens. The engine
+   itself (`public/vendor/scrollcraft.js`) is vendored unmodified; its full
+   stylesheet is not imported, because it carries a second page reset that
+   would fight the design system in globals.css.
+   ========================================================================== */
+
+/* ------------------------------------------------- worldflight mechanism -- */
+
+[data-sc-mode="worldflight"] {
+  position: relative;
+}
+
+.sc-world {
+  position: fixed;
+  inset: 0;
+  overflow: clip;
+  z-index: 1;
+  background: var(--paper);
+}
+
+.sc-world__seg {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sc-world__copy {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+[data-sc-copy] {
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.sc-world__spacer {
+  pointer-events: none;
+}
+
+[data-sc-progress] {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 2px;
+  z-index: var(--z-chrome);
+  background: var(--accent);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  will-change: transform;
+}
+
+/* --------------------------------------------------------- which tree is -- */
+
+.flight {
+  display: none;
+}
+
+:root[data-flight="on"] .flight {
+  display: block;
+}
+
+:root[data-flight="on"] .static-sheet {
+  display: none;
+}
+
+/* ---------------------------------------------------------------- canvas -- */
+
+.sheet-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* The canvas paints from the first frame, but the constructions are drafted on
+   a clock, so there is no flash of an empty sheet either way. */
+
+/* ------------------------------------------------------------ copy layer -- */
+
+.flight-copy {
+  position: absolute;
+  inset-inline: var(--gutter);
+  bottom: clamp(3rem, 11vh, 7.5rem);
+  max-width: min(34rem, 82vw);
+}
+
+/* On desktop the copy holds one half of the frame and the camera keeps the
+   drawing in the other, so the two never overlap and no scrim is needed. The
+   map rail lives in the margin outside the copy column. */
+@media (min-width: 900px) {
+  :root {
+    --flight-inset: max(calc(var(--gutter) + 7rem), calc(50vw - 40rem));
+    --flight-column: min(30rem, max(17rem, calc(46vw - var(--flight-inset))));
+    /* the scrim holds full density to here, then falls away */
+    --scrim-hold: calc(var(--flight-inset) + var(--flight-column));
+  }
+  .flight-copy {
+    inset-inline: auto;
+    top: 50%;
+    bottom: auto;
+    translate: 0 -50%;
+    max-width: var(--flight-column);
+  }
+  .flight-copy[data-side="left"] {
+    left: var(--flight-inset);
+  }
+  .flight-copy[data-side="right"] {
+    right: var(--flight-inset);
+    text-align: left;
+  }
+}
+
+/* Density only where the copy sits, never across the whole frame.
+   Narrow screens get a band across the bottom, because the copy spans the
+   width there. Desktop gets a column under the copy, on whichever side it
+   currently holds: --copy-side runs 0 (left) to 1 (right) and crossfades as
+   the camera travels, so the paper arrives with the copy. */
+.flight-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    to top,
+    color-mix(in oklab, var(--paper) 97%, transparent) 0%,
+    color-mix(in oklab, var(--paper) 94%, transparent) 38%,
+    color-mix(in oklab, var(--paper) 45%, transparent) 55%,
+    transparent 68%
+  );
+}
+
+@media (min-width: 900px) {
+  .flight-scrim {
+    background: none;
+  }
+  .flight-scrim::before,
+  .flight-scrim::after {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    width: calc(var(--scrim-hold) + 11rem);
+  }
+  .flight-scrim::before {
+    left: 0;
+    opacity: calc((1 - var(--copy-side, 0)) * var(--scrim-strength, 1));
+    background: linear-gradient(
+      to right,
+      color-mix(in oklab, var(--paper) 97%, transparent) 0,
+      color-mix(in oklab, var(--paper) 92%, transparent) var(--scrim-hold),
+      transparent 100%
+    );
+  }
+  .flight-scrim::after {
+    right: 0;
+    opacity: calc(var(--copy-side, 0) * var(--scrim-strength, 1));
+    background: linear-gradient(
+      to left,
+      color-mix(in oklab, var(--paper) 97%, transparent) 0,
+      color-mix(in oklab, var(--paper) 92%, transparent) var(--scrim-hold),
+      transparent 100%
+    );
+  }
+}
+
+.flight-copy__heading {
+  margin: 0;
+}
+
+.flight-copy__body {
+  margin: 1rem 0 0;
+  max-width: 34ch;
+}
+
+.flight-copy__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.4rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ------------------------------------------------------------------ hero -- */
+
+.hero-copy {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: clamp(3.5rem, 12vh, 8rem);
+  max-width: min(46rem, 84vw);
+}
+
+@media (min-width: 900px) {
+  .hero-copy {
+    left: var(--flight-inset);
+    right: auto;
+    max-width: min(38rem, max(20rem, calc(48vw - var(--flight-inset))));
+  }
+}
+
+.hero-copy__name {
+  margin: 0;
+}
+
+.hero-copy__line {
+  margin: 1.1rem 0 0;
+}
+
+.hero-copy__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+/* ----------------------------------------------------------- title block --
+   The close. The block itself is styled in globals.css, because the footer of
+   every other page is the same object; only its position here is the flight's. */
+
+.flight .title-block {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: clamp(1.5rem, 5vh, 3rem);
+  max-width: 46rem;
+  background: color-mix(in oklab, var(--paper) 94%, transparent);
+  border: 1px solid var(--ink);
+  backdrop-filter: blur(2px);
+}
+
+@media (min-width: 900px) {
+  .flight .title-block {
+    left: auto;
+    right: var(--flight-inset);
+    bottom: clamp(2.5rem, 9vh, 6rem);
+    width: min(30rem, max(21rem, calc(42vw - var(--flight-inset))));
+  }
+}
+
+@media (max-width: 899px) {
+  .flight .title-block {
+    bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* -------------------------------------------------------------- map rail --
+   The nav for this grammar. A route with seven stops, and it jumps. */
+
+.map-rail {
+  position: fixed;
+  z-index: var(--z-chrome);
+  pointer-events: auto;
+}
+
+@media (min-width: 900px) {
+  .map-rail {
+    left: calc(var(--flight-inset) - 7.75rem);
+    top: 50%;
+    translate: 0 -50%;
+    background: color-mix(in oklab, var(--paper) 92%, transparent);
+    border: 1px solid var(--rule-strong);
+    backdrop-filter: blur(3px);
+  }
+  .map-rail__list {
+    display: grid;
+    gap: 0.1rem;
+    margin: 0;
+    padding: 0.4rem 0.55rem;
+    list-style: none;
+  }
+}
+
+@media (max-width: 899px) {
+  .map-rail {
+    left: 0;
+    right: 0;
+    top: 0;
+    background: color-mix(in oklab, var(--paper) 92%, transparent);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .map-rail__list {
+    display: flex;
+    gap: 0.15rem;
+    margin: 0;
+    padding: 0.4rem max(0.75rem, env(safe-area-inset-left)) 0.4rem max(0.75rem, env(safe-area-inset-right));
+    list-style: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .map-rail__list::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.map-rail__stop {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.35rem 0.5rem;
+  background: none;
+  border: 0;
+  color: var(--ink-soft);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--d-micro) var(--ease-ink);
+}
+
+.map-rail__tick {
+  width: 1.15rem;
+  height: 1px;
+  background: currentColor;
+  transition: width var(--d-normal) var(--ease-ink);
+}
+
+.map-rail__stop[aria-current="true"] {
+  color: var(--accent);
+}
+
+.map-rail__stop[aria-current="true"] .map-rail__tick {
+  width: 2.1rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .map-rail__stop:hover {
+    color: var(--ink);
+  }
+}
+
+@media (max-width: 899px) {
+  .map-rail__tick {
+    display: none;
+  }
+}
+
+/* ----------------------------------------------------------------- skip --- */
+
+.skip-link {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: var(--z-overlay);
+  padding: 0.6rem 1rem;
+  background: var(--ink);
+  color: var(--paper);
+  translate: 0 -200%;
+}
+
+.skip-link:focus-visible {
+  translate: 0 0;
+}
+
+/* -------------------------------------------------------- the static sheet -- */
+
+.static-sheet__section {
+  padding-block: var(--section);
+  border-top: 1px solid var(--rule);
+}
+
+.static-sheet__section:first-of-type {
+  border-top: 0;
+}
+
+.static-sheet__grid {
+  display: grid;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  /* Copy on the left, drawing on the right, and the reverse on the next one,
+     matching the side the flight puts them on. */
+  .static-sheet__grid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  }
+  .static-sheet__grid[data-side="right"] {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  }
+  .static-sheet__grid[data-side="right"] > .static-sheet__figure {
+    order: -1;
+  }
+}
+
+.construction {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 60vh;
+  overflow: visible;
+}
+
+/* ----------------------------------------------------------- narrow flight -- */
+
+@media (max-width: 899px) {
+  .flight-copy,
+  .hero-copy {
+    bottom: max(2.5rem, env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-height: 560px) and (max-width: 899px) {
+  .hero-copy__actions {
+    margin-top: 1.1rem;
+  }
+  .flight-copy__links {
+    margin-top: 1rem;
+  }
+}

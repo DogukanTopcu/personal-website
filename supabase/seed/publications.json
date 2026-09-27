@@ -1,0 +1,21 @@
+[
+  {
+    "slug": "hybrid-architectures-for-small-language-models",
+    "title": "Hybrid Architectures for Small Language Models",
+    "authors": [
+      "Doğukan Topçu"
+    ],
+    "kind": "thesis",
+    "venue": "Bachelor's thesis, İzmir Institute of Technology",
+    "year": 2026,
+    "abstract": "A study of how small language models have developed, and of hybrid architectures that aim to bring small models closer to the capability of large language models.",
+    "keywords": [
+      "small language models",
+      "hybrid architectures",
+      "efficient language modelling"
+    ],
+    "bibtex": "@mastersthesis{topcu2026,\n  title  = {Hybrid Architectures for Small Language Models},\n  author = {Topçu, Doğukan},\n  year   = {2026},\n  school = {İzmir Institute of Technology},\n  type   = {Bachelor's thesis}\n}",
+    "featured": true,
+    "published_at": "2026-07-01"
+  }
+]

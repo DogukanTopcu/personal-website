@@ -1,0 +1,31 @@
+{
+  "name": "dogukantopcu-site",
+  "private": true,
+  "description": "Personal site: public Next.js app (site), admin panel (admin) and Supabase backend.",
+  "type": "module",
+  "scripts": {
+    "admin:create": "node scripts/create-admin.mjs",
+    "build:admin": "pnpm --dir admin build",
+    "build:darkroom": "pnpm --dir darkroom build",
+    "build:site": "pnpm --dir site build",
+    "build:web": "pnpm --dir web build",
+    "db:reset": "supabase db reset",
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
+    "db:types": "supabase gen types typescript --local --schema public > site/src/lib/supabase/database.types.ts && cp site/src/lib/supabase/database.types.ts admin/src/lib/supabase/database.types.ts",
+    "dev:admin": "pnpm --dir admin dev",
+    "dev:darkroom": "pnpm --dir darkroom dev",
+    "dev:site": "pnpm --dir site dev",
+    "dev:web": "pnpm --dir web dev",
+    "seed": "node scripts/seed.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.116.0",
+    "dotenv": "^17.2.3",
+    "gray-matter": "^4.0.3"
+  },
+  "packageManager": "pnpm@10.33.2",
+  "devDependencies": {
+    "playwright-core": "^1.63.0"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "web",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--dir",
+        "web",
+        "dev"
+      ],
+      "port": 3100
+    },
+    {
+      "name": "admin",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--dir",
+        "admin",
+        "dev"
+      ],
+      "port": 3101
+    },
+    {
+      "name": "darkroom",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--dir",
+        "darkroom",
+        "dev"
+      ],
+      "port": 3102
+    },
+    {
+      "name": "site",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--dir",
+        "site",
+        "dev"
+      ],
+      "port": 3103
+    }
+  ]
+}

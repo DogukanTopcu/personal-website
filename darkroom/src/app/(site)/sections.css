@@ -1,0 +1,1753 @@
+/* ==========================================================================
+   Darkroom: the inner pages
+
+   Section layouts on top of globals.css, which owns the tokens, the type, the
+   gate, the strip and the page furniture. Nothing here restyles the chrome or
+   the home page. Every multi-column layout starts as one column and says when
+   it opens up. Loaded by the (site) layout, and by the root not-found and
+   error pages, which have no layout of their own.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- shared -- */
+
+/* A title card sized by its own frame, not by the window, so the intertitle
+   on a small poster and the one in a wide gate both fill their frame. */
+.card-fit {
+  container-type: inline-size;
+}
+
+.card-fit .title-card__text {
+  font-size: clamp(1.05rem, 8.5cqi, 4.5rem);
+}
+
+/* A wide gate is 3:2 on a phone, like any still, and 2.39:1 from a tablet up. */
+@media (min-width: 700px) {
+  .card-fit--wide .title-card__text {
+    font-size: clamp(1.45rem, 6.4cqi, 5.5rem);
+  }
+}
+
+.card-fit--poster .title-card__text {
+  font-size: clamp(1rem, 19cqi, 5rem);
+  line-height: 0.9;
+}
+
+/* A head set like an intertitle, for pages that are read start to finish. */
+.page-head--center {
+  text-align: center;
+}
+
+.page-head--center .crumbs {
+  justify-content: center;
+}
+
+.page-head--center .page-head__lede,
+.page-head--center .skeleton {
+  margin-inline: auto;
+}
+
+/* Frames lift a little under the pointer: the lamp turned up. */
+.lead-plate .frame,
+.plate .frame,
+.story__poster .frame,
+.strip-cell__frame > :is(img, video) {
+  transition: filter var(--d-normal) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lead-plate:hover .frame,
+  .plate:hover .frame,
+  .story__poster:hover .frame {
+    filter: brightness(1.14);
+  }
+}
+
+.link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+}
+
+/* A title that is also a link: a hairline under it at rest, red when hot. */
+.course__title a,
+.story__title a,
+.history__link {
+  color: var(--print);
+  text-decoration: underline;
+  text-decoration-color: var(--rule-strong);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.13em;
+  transition: text-decoration-color var(--d-micro) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .course__title a:hover,
+  .story__title a:hover,
+  .history__link:hover {
+    text-decoration-color: var(--red);
+  }
+}
+
+/* A pager with one side missing: the empty slot is the room, not a grey
+   block, and on a phone it takes no row at all. */
+.pager__void {
+  background: var(--room);
+}
+
+@media (max-width: 699px) {
+  .pager__void {
+    display: none;
+  }
+}
+
+/* Code arrives as pretty-code's own figure and caption; frame it the way
+   globals frames a code block. */
+.prose figure[data-rehype-pretty-code-figure] {
+  margin-block: 1.75em;
+  border-radius: 3px;
+  background: #110f0d;
+  box-shadow: inset 0 0 0 1px var(--rule);
+}
+
+.prose figure[data-rehype-pretty-code-figure] > figcaption {
+  margin: 0;
+  padding: 0.6em 1.15em;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+/* Contents rails get room for a thumb on touch screens. */
+@media (pointer: coarse) {
+  .toc__list {
+    gap: 0;
+  }
+  .toc__list a {
+    display: block;
+    padding-block: 0.55rem;
+  }
+}
+
+/* ============================================================ work index ==
+   The lead project is projected: a wide gate, its caption in the masking
+   beside it. The rest are stills hung unevenly: a wide one and a narrow one
+   to a row, the narrow one lower, the sides alternating. */
+
+.lead-plate {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1.4rem, 3vw, 2rem);
+}
+
+.lead-plate__gate .frame {
+  aspect-ratio: 3 / 2;
+}
+
+@media (min-width: 700px) {
+  .lead-plate__gate .frame {
+    aspect-ratio: 2.39 / 1;
+  }
+}
+
+@media (min-width: 1100px) {
+  .lead-plate {
+    grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+    column-gap: clamp(2rem, 3.5vw, 3.5rem);
+    align-items: end;
+  }
+}
+
+.lead-plate__caption {
+  display: grid;
+  gap: 0.85rem;
+  align-content: end;
+  max-width: 40rem;
+}
+
+.lead-plate__caption > * {
+  margin: 0;
+}
+
+.lead-plate__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 1.7rem + 2.2vw, 3.75rem);
+  font-weight: 400;
+  line-height: 0.94;
+  letter-spacing: 0.01em;
+  text-wrap: balance;
+}
+
+.lead-plate__title a {
+  color: var(--print);
+  text-decoration: none;
+}
+
+.lead-plate__title a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.lead-plate__summary {
+  max-width: 44ch;
+  color: var(--ink-soft);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.lead-plate .tags {
+  margin-top: 0.3rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lead-plate:hover .lead-plate__title a {
+    text-decoration: underline;
+    text-decoration-color: var(--red);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.12em;
+  }
+}
+
+.plate-grid {
+  --drop: clamp(3rem, 11vw, 10rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(3rem, 8vw, 4rem);
+  margin: clamp(3.5rem, 8vw, 7rem) 0 0;
+  padding: clamp(3.5rem, 8vw, 7rem) 0 0;
+  border-top: 1px solid var(--rule);
+  list-style: none;
+}
+
+@media (min-width: 700px) {
+  .plate-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: clamp(1.5rem, 3.5vw, 3.5rem);
+    row-gap: clamp(4rem, 8vw, 7rem);
+    align-items: start;
+  }
+  .plate-grid > li:nth-child(4n + 1) {
+    grid-column: 1 / span 7;
+  }
+  .plate-grid > li:nth-child(4n + 2) {
+    grid-column: 8 / span 5;
+    margin-top: var(--drop);
+  }
+  .plate-grid > li:nth-child(4n + 3) {
+    grid-column: 1 / span 5;
+    margin-top: var(--drop);
+  }
+  .plate-grid > li:nth-child(4n + 4) {
+    grid-column: 6 / span 7;
+  }
+  /* An odd one out at the end hangs wide, not alone in a narrow slot. */
+  .plate-grid > li:nth-child(4n + 3):last-child {
+    grid-column: 1 / span 7;
+    margin-top: 0;
+  }
+}
+
+@media (min-width: 1100px) {
+  .plate-grid > li:nth-child(4n + 2) {
+    grid-column: 9 / span 4;
+  }
+  .plate-grid > li:nth-child(4n + 3) {
+    grid-column: 1 / span 4;
+  }
+  .plate-grid > li:nth-child(4n + 3):last-child {
+    grid-column: 1 / span 7;
+  }
+}
+
+.plate__caption {
+  display: grid;
+  gap: 0.55rem;
+  padding-top: 0.35rem;
+}
+
+.plate__caption > * {
+  margin: 0;
+}
+
+.plate__caption .plate__body {
+  max-width: 44ch;
+}
+
+/* ========================================================== project page == */
+
+.detail-gate {
+  margin-top: clamp(2rem, 5vw, 3.5rem);
+}
+
+.detail-gate .frame {
+  aspect-ratio: 3 / 2;
+}
+
+@media (min-width: 700px) {
+  .detail-gate .frame {
+    aspect-ratio: 2.39 / 1;
+  }
+}
+
+.detail-facts {
+  max-width: var(--measure);
+}
+
+.detail-facts + .detail-prose {
+  margin-top: clamp(2.25rem, 4vw, 3rem);
+}
+
+.detail-updated {
+  margin: clamp(2.5rem, 5vw, 3.5rem) 0 0;
+}
+
+/* Shots: a length of film that runs sideways inside itself. The lamp is as
+   wide as the film, so the perforations run the whole length. */
+.shots {
+  padding-top: var(--section);
+}
+
+.shots__title {
+  margin: 0 0 clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.shots__scroll {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--rule-strong) transparent;
+}
+
+.shots__scroll:focus-visible {
+  outline-offset: 4px;
+}
+
+.shots__lamp {
+  width: max-content;
+  min-width: 100%;
+}
+
+.shots__strip {
+  display: flex;
+  margin: 0;
+  padding-inline: 6px;
+  list-style: none;
+}
+
+.shots__cell {
+  flex: none;
+  width: clamp(15rem, 72vw, 26rem);
+  padding-inline: 6px;
+}
+
+.shots__figure {
+  margin: 0;
+}
+
+.shots__caption {
+  margin-top: 0.85rem;
+  padding-inline: 2px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  text-wrap: pretty;
+}
+
+/* ============================================================== writing ==
+   The programme. The rows themselves live in globals (.index, .entry). */
+
+.entry__when > * {
+  display: block;
+}
+
+.entry__review {
+  font-style: normal;
+  color: var(--ink-soft);
+}
+
+.entry__review cite {
+  font-style: italic;
+  color: var(--prose);
+}
+
+/* On a phone the date and strand share a line, and so do runtime and score. */
+@media (max-width: 799px) {
+  .entry__when > * {
+    display: inline;
+  }
+  .entry__when > * + *::before {
+    content: " · ";
+  }
+  .entry__trailing {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.2rem 1.25rem;
+  }
+}
+
+.rating {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+/* A review's technical sheet sits above the prose, at the prose's measure. */
+.verdict {
+  max-width: var(--measure);
+  margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.verdict .facts__row {
+  padding-block: 0.65rem;
+  font-size: 1rem;
+}
+
+.verdict cite {
+  font-style: italic;
+  color: var(--print);
+}
+
+.verdict__rating {
+  font-size: 0.82rem;
+}
+
+.verdict__line {
+  color: var(--prose);
+}
+
+.detail-tags {
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.reading .pager {
+  max-width: var(--measure);
+}
+
+/* ============================================================== courses ==
+   A course is its syllabus: the course on the left, its numbered lessons on
+   the right. The head holds still while a long list of lessons goes by. */
+
+.course-list {
+  display: grid;
+}
+
+.course {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.75rem;
+  padding-block: clamp(3rem, 6vw, 5rem);
+  border-top: 1px solid var(--rule);
+}
+
+.course:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.course:last-child {
+  padding-bottom: 0;
+}
+
+@media (min-width: 1000px) {
+  .course {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    column-gap: clamp(2.5rem, 5vw, 5rem);
+    align-items: start;
+  }
+  .course__head {
+    position: sticky;
+    top: calc(var(--bar-h) + 2rem);
+  }
+}
+
+.course__head > * {
+  margin: 0;
+}
+
+.course__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.3rem, 1.6rem + 2.4vw, 3.75rem);
+  font-weight: 400;
+  line-height: 0.94;
+  letter-spacing: 0.01em;
+  text-wrap: balance;
+}
+
+.course__head .course__meta {
+  margin-top: 1.1rem;
+}
+
+.course__head .course__summary {
+  margin-top: 1rem;
+  max-width: 46ch;
+  color: var(--ink-soft);
+  text-wrap: pretty;
+}
+
+.course__head .course__topics {
+  margin-top: 1.25rem;
+}
+
+.course__pending {
+  margin: 0;
+}
+
+.course-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(2.75rem, 5vw, 4rem);
+  padding-block: clamp(2.5rem, 5vw, 4rem);
+}
+
+.course-detail > * {
+  min-width: 0;
+}
+
+/* The lessons follow the description directly on a phone; on a desk they
+   stand beside both the description and the related courses. */
+@media (min-width: 1100px) {
+  .course-detail {
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, 27rem);
+    column-gap: clamp(3rem, 5vw, 5rem);
+    align-items: start;
+  }
+  .course-detail__aside {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+  .course-detail > .course-links {
+    grid-column: 1;
+  }
+}
+
+.course-detail__label {
+  margin: 0 0 0.9rem;
+}
+
+.course-start {
+  margin-top: 1.75rem;
+}
+
+.course-links {
+  max-width: var(--measure);
+}
+
+.course-links__title {
+  margin: 0 0 1.25rem;
+}
+
+/* A lesson: the course rail and this lesson's contents in the margin. On a
+   narrow screen the margin comes apart: the contents stay above the lesson,
+   the course rail drops below it, next to the way on. */
+.lesson__rails > * + * {
+  margin-top: 2.75rem;
+}
+
+@media (max-width: 1099px) {
+  .lesson__rails {
+    display: contents;
+  }
+  .lesson__rails > * + * {
+    margin-top: 0;
+  }
+  .lesson__rails > .lesson-rail {
+    order: 1;
+  }
+  .lesson__rails > .toc:not(.lesson-rail) {
+    order: -1;
+  }
+}
+
+.lesson-rail__list a {
+  display: block;
+  padding-left: 2rem;
+  text-indent: -2rem;
+}
+
+.lesson-rail__n {
+  display: inline-block;
+  width: 2rem;
+  text-indent: 0;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+}
+
+.lesson-video {
+  max-width: var(--measure);
+  margin: 0 0 clamp(2rem, 4vw, 2.75rem);
+}
+
+.lesson-end {
+  max-width: var(--measure);
+  margin: 1.5rem 0 0;
+  color: var(--ink-soft);
+}
+
+@media (pointer: coarse) {
+  .lesson-video .link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-block: 0;
+  }
+}
+
+/* A video: the still in a gate, its title below in the masking, never on the
+   picture. The play control is the whole gate. */
+.embed-figure {
+  margin: 0;
+}
+
+.embed {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: #050404;
+}
+
+.embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.embed .embed__poster {
+  position: absolute;
+  inset: 0;
+}
+
+.embed__play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--print);
+  cursor: pointer;
+}
+
+.embed__play:focus-visible {
+  outline-offset: -4px;
+}
+
+.embed__mark {
+  display: grid;
+  place-items: center;
+  width: 4.25rem;
+  height: 4.25rem;
+  border: 1px solid var(--print);
+  background: rgb(12 11 10 / 0.78);
+  transition: background-color var(--d-normal) var(--ease), border-color var(--d-normal) var(--ease), color var(--d-normal) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .embed__play:hover .embed__mark {
+    border-color: var(--red);
+    background: var(--red);
+    color: var(--red-ink);
+  }
+}
+
+.embed__caption {
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+/* ============================================================== stories ==
+   Billed like films: the poster, the title and its line of facts, the
+   synopsis, the chapters. On a phone the poster shrinks to sit beside the
+   title; from a tablet up it stands to the left of everything. */
+
+.story-list {
+  display: grid;
+}
+
+.story {
+  display: grid;
+  grid-template-columns: 7.25rem minmax(0, 1fr);
+  grid-template-areas:
+    "poster head"
+    "synopsis synopsis"
+    "contents contents";
+  column-gap: 1.25rem;
+  row-gap: 1.6rem;
+  align-items: start;
+  padding-block: clamp(3rem, 6vw, 5rem);
+  border-top: 1px solid var(--rule);
+}
+
+.story:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.story:last-child {
+  padding-bottom: 0;
+}
+
+.story__poster {
+  grid-area: poster;
+  display: block;
+}
+
+.story__head {
+  grid-area: head;
+  align-self: end;
+}
+
+.story__synopsis {
+  grid-area: synopsis;
+  max-width: 58ch;
+  margin: 0;
+  color: var(--prose);
+  text-wrap: pretty;
+}
+
+.story__contents {
+  grid-area: contents;
+}
+
+@media (min-width: 700px) {
+  .story {
+    grid-template-columns: minmax(11rem, 17rem) minmax(0, 44rem);
+    grid-template-areas:
+      "poster head"
+      "poster synopsis"
+      "poster contents";
+    grid-template-rows: auto auto 1fr;
+    column-gap: clamp(2rem, 5vw, 4.5rem);
+    row-gap: 0;
+  }
+  .story__head {
+    align-self: start;
+  }
+  .story__synopsis {
+    margin-top: 1.35rem;
+  }
+  .story__contents {
+    margin-top: 2.25rem;
+  }
+}
+
+.story__head > * {
+  margin: 0;
+}
+
+.story__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 1.35rem + 2.7vw, 3.75rem);
+  font-weight: 400;
+  line-height: 0.94;
+  letter-spacing: 0.01em;
+  text-wrap: balance;
+}
+
+.story__head .story__meta {
+  margin-top: 0.85rem;
+}
+
+.story-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.story-detail__poster {
+  width: min(64%, 16rem);
+}
+
+@media (min-width: 800px) {
+  .story-detail {
+    grid-template-columns: minmax(14rem, 20rem) minmax(0, 44rem);
+    align-items: start;
+  }
+  .story-detail__poster {
+    width: auto;
+    position: sticky;
+    top: calc(var(--bar-h) + 2rem);
+  }
+}
+
+.story-detail__label {
+  margin: 0 0 0.9rem;
+}
+
+.story-detail__start {
+  margin-top: 1.75rem;
+}
+
+/* A chapter: the fiction measure, centred, and nothing in the margins. The
+   column carries the prose's type size so its 60ch is the prose's 60ch. */
+.chapter {
+  padding-top: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.chapter__column {
+  max-width: 60ch;
+  margin-inline: auto;
+  font-size: 1.25rem;
+}
+
+.chapter__end-card {
+  margin: clamp(3.5rem, 8vw, 5.5rem) 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
+  line-height: 1;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--print);
+}
+
+.chapter__after {
+  margin: 1.75rem 0 0;
+  text-align: center;
+  color: var(--ink-soft);
+  text-wrap: balance;
+}
+
+/* ============================================================= research ==
+   A bibliography: the year in the margin, holding still while its entries
+   pass; each entry with its kind, the title in the reading face, the
+   citation, the abstract folded away, the links. */
+
+.bibliography {
+  display: grid;
+}
+
+.research-year {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+  padding-block: clamp(2.5rem, 5vw, 4rem);
+  border-top: 1px solid var(--rule-strong);
+}
+
+.research-year:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.research-year:last-child {
+  padding-bottom: 0;
+}
+
+@media (min-width: 900px) {
+  .research-year {
+    grid-template-columns: 9rem minmax(0, 1fr);
+    column-gap: clamp(2rem, 4vw, 4rem);
+    align-items: start;
+  }
+  .research-year__title {
+    position: sticky;
+    top: calc(var(--bar-h) + 1.75rem);
+  }
+}
+
+.research-year__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 2.2rem + 2.8vw, 4.75rem);
+  font-weight: 400;
+  line-height: 0.82;
+  letter-spacing: 0.02em;
+  color: var(--print);
+}
+
+.research-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.research-entry {
+  display: grid;
+  gap: 0.7rem;
+  padding-bottom: clamp(2rem, 4vw, 2.75rem);
+}
+
+.research-entry + .research-entry {
+  padding-top: clamp(2rem, 4vw, 2.75rem);
+  border-top: 1px solid var(--rule);
+}
+
+.research-entry:last-child {
+  padding-bottom: 0;
+}
+
+@media (min-width: 1100px) {
+  .research-entry {
+    grid-template-columns: 9rem minmax(0, 1fr);
+    column-gap: 2rem;
+  }
+  .research-entry__kind {
+    padding-top: 0.62rem;
+  }
+}
+
+.research-entry__kind {
+  margin: 0;
+}
+
+.research-entry__body {
+  min-width: 0;
+}
+
+.research-entry__title {
+  max-width: 36ch;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(1.45rem, 1.25rem + 0.7vw, 1.85rem);
+  font-weight: 500;
+  line-height: 1.22;
+  letter-spacing: -0.003em;
+  color: var(--print);
+  text-wrap: balance;
+}
+
+.research-entry:target .research-entry__title {
+  text-decoration: underline;
+  text-decoration-color: var(--red);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.18em;
+}
+
+.research-entry__cite {
+  max-width: 62ch;
+  margin: 0.7rem 0 0;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.research-entry__cite cite {
+  font-style: italic;
+  color: var(--prose);
+}
+
+.research-abstract {
+  max-width: 62ch;
+  margin-top: 1rem;
+}
+
+.research-abstract > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65em;
+  min-height: 2rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  cursor: pointer;
+  list-style: none;
+}
+
+.research-abstract > summary::-webkit-details-marker {
+  display: none;
+}
+
+.research-abstract > summary::before {
+  content: "+";
+  width: 1ch;
+  font-size: 0.95rem;
+  color: var(--red);
+}
+
+.research-abstract[open] > summary::before {
+  content: "-";
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .research-abstract > summary:hover {
+    color: var(--print);
+  }
+}
+
+.research-abstract > p {
+  margin: 0.8rem 0 0;
+  padding-left: 1.2rem;
+  border-left: 1px solid var(--rule-strong);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--prose);
+  text-wrap: pretty;
+}
+
+.research-entry__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1.5rem;
+  margin: 1.1rem 0 0;
+  font-size: 1rem;
+}
+
+.research-entry__keywords {
+  margin-top: 1.1rem;
+}
+
+@media (pointer: coarse) {
+  .research-abstract > summary {
+    min-height: 44px;
+  }
+  .research-entry__links .link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-block: 0;
+  }
+}
+
+/* ============================================================== gallery ==
+   One frame of 35mm film is a cell with its own rebate: eight perforations
+   above it and eight below, the way the film is cut. Cells set side by side
+   join into a strip, so a row of any length is a strip, and a contact sheet
+   is rows of them. Edge print under each frame carries the piece's own data. */
+
+.strip-cell {
+  --perf: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 14'><rect x='7' y='3' width='10' height='8' rx='1.8' fill='%235c544c'/></svg>");
+  min-width: 0;
+  padding-inline: 4px;
+}
+
+.strip-cell::before,
+.strip-cell::after {
+  background-size: 12.5% 14px;
+}
+
+.strip-cell__frame {
+  display: block;
+  aspect-ratio: 3 / 2;
+}
+
+.strip-cell__edge {
+  display: block;
+  height: 1.3em;
+  margin: 8px 3px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .roll:hover .strip-cell__frame > :is(img, video),
+  .proof-sheet__frame:hover > :is(img, video) {
+    filter: brightness(1.15);
+  }
+}
+
+/* The index: every room as a length of film. The title's link is stretched
+   over the whole roll, above the lamp's own layer. */
+.rolls {
+  display: grid;
+  gap: clamp(4rem, 8vw, 6.5rem);
+}
+
+.roll {
+  position: relative;
+}
+
+.roll__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.4rem 1.5rem;
+}
+
+.roll__title {
+  margin: 0;
+}
+
+.roll__title a {
+  color: var(--print);
+  text-decoration: none;
+}
+
+.roll__title a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.roll__count {
+  margin: 0;
+}
+
+.roll__body {
+  max-width: 58ch;
+  margin: 0.7rem 0 0;
+  color: var(--ink-soft);
+}
+
+.roll__film {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: clamp(1.25rem, 3vw, 1.75rem) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.roll__lamp > .roll__film {
+  margin: 0;
+}
+
+.roll__lamp {
+  margin-top: clamp(1.25rem, 3vw, 1.75rem);
+}
+
+.roll__film > :nth-child(n + 4) {
+  display: none;
+}
+
+@media (min-width: 700px) {
+  .roll__film {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .roll__film > :nth-child(4) {
+    display: block;
+  }
+}
+
+@media (min-width: 1000px) {
+  .roll__film {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  .roll__film > :nth-child(5) {
+    display: block;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .roll:hover .roll__title a {
+    text-decoration: underline;
+    text-decoration-color: var(--red);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.12em;
+  }
+}
+
+.roll:has(.roll__title a:focus-visible) .roll__film {
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
+}
+
+/* A room: the contact sheet. Two frames to a strip on a phone, three on a
+   tablet, four on a desk. */
+.proof-sheet {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  row-gap: clamp(1rem, 2.5vw, 1.75rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 700px) {
+  .proof-sheet {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .proof-sheet {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.proof-sheet__frame {
+  cursor: zoom-in;
+  outline-offset: -3px;
+}
+
+/* The projection: the room goes black, the piece is shown in a gate, and its
+   caption and facts sit in the dark beside it (below it on a phone). */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: #000;
+  color: var(--print);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.lightbox::backdrop {
+  background: #000;
+}
+
+.lightbox__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  gap: 1.75rem;
+  min-height: 100%;
+  padding: 4.25rem var(--gutter) 2.5rem;
+}
+
+.lightbox__close {
+  position: fixed;
+  top: 0.6rem;
+  right: 0.6rem;
+  z-index: 1;
+}
+
+/* On a phone the gate hugs the picture, so a wide one does not float in a
+   tall black box; on a desk the gate is the whole left of the room. */
+.lightbox__gate {
+  display: grid;
+  place-items: center;
+  background: none;
+}
+
+.lightbox .lightbox__gate > :is(img, video) {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: min(64vh, 40rem);
+  max-height: min(64dvh, 40rem);
+  object-fit: contain;
+  border-radius: 3px;
+  background: #050404;
+}
+
+.lightbox__panel {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+  max-width: 40rem;
+}
+
+.lightbox__panel > * {
+  margin: 0;
+}
+
+.lightbox__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 1.5rem + 1.2vw, 2.6rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: var(--print);
+  text-wrap: balance;
+}
+
+.lightbox__caption {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--prose);
+}
+
+.lightbox__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.lightbox__count {
+  white-space: nowrap;
+}
+
+@media (min-width: 1100px) {
+  .lightbox {
+    overflow: hidden;
+  }
+  .lightbox__inner {
+    grid-template-columns: minmax(0, 1fr) 22rem;
+    align-content: stretch;
+    gap: 2.5rem;
+    height: 100%;
+    padding: 2.5rem;
+  }
+  .lightbox__gate {
+    height: 100%;
+    min-height: 0;
+  }
+  .lightbox .lightbox__gate > :is(img, video) {
+    max-height: 100%;
+  }
+  .lightbox__panel {
+    align-self: end;
+    max-height: 100%;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+  }
+}
+
+/* ================================================================ about ==
+   The portrait and the long version first. After that every part keeps its
+   title in the left column and its content on the right. */
+
+.about {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(2.25rem, 5vw, 4rem);
+  padding-top: clamp(2.5rem, 5vw, 4rem);
+}
+
+.about > * {
+  min-width: 0;
+}
+
+.about__portrait {
+  width: min(100%, 19rem);
+}
+
+@media (min-width: 900px) {
+  .about {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    column-gap: clamp(2.5rem, 5vw, 5rem);
+    align-items: start;
+  }
+  .about__portrait {
+    width: auto;
+    max-width: 24rem;
+    position: sticky;
+    top: calc(var(--bar-h) + 2rem);
+  }
+}
+
+.about__where {
+  margin: 0.9rem 0 0;
+}
+
+.about__now {
+  margin-top: clamp(3rem, 6vw, 4rem);
+}
+
+.about__now > h2 {
+  margin: 0 0 1.25rem;
+}
+
+.about-part {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.75rem;
+  padding-top: var(--section);
+}
+
+.about-part > * {
+  min-width: 0;
+}
+
+@media (min-width: 900px) {
+  .about-part {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    column-gap: clamp(2.5rem, 5vw, 5rem);
+    align-items: start;
+  }
+  .about-part__title {
+    position: sticky;
+    top: calc(var(--bar-h) + 2rem);
+  }
+}
+
+.about-part__title {
+  margin: 0;
+}
+
+.about-skills .facts__value {
+  color: var(--prose);
+}
+
+@media (min-width: 560px) {
+  .about-skills .facts__row {
+    grid-template-columns: 11rem minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+.history-group + .history-group {
+  margin-top: clamp(2.5rem, 5vw, 3.25rem);
+}
+
+.history-group__title {
+  margin: 0 0 0.9rem;
+}
+
+.history {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--rule-strong);
+}
+
+.history__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.4rem;
+  padding-block: 1.35rem 1.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+@media (min-width: 560px) {
+  .history__row {
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    column-gap: 1.5rem;
+  }
+  .history__body {
+    grid-column: 2;
+  }
+}
+
+.history__when {
+  margin: 0;
+  padding-top: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.history__body {
+  min-width: 0;
+}
+
+.history__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.65rem, 1.4rem + 0.8vw, 2.1rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: var(--print);
+}
+
+@media (pointer: coarse) {
+  .history__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+.history__where {
+  margin: 0.5rem 0 0;
+  font-size: 1.0625rem;
+  color: var(--ink-soft);
+}
+
+.history__summary {
+  max-width: 60ch;
+  margin: 0.45rem 0 0;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--prose);
+}
+
+.history__highlights {
+  max-width: 60ch;
+  margin: 0.7rem 0 0;
+  padding-left: 1.15em;
+  list-style: none;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--prose);
+}
+
+.history__highlights li {
+  position: relative;
+}
+
+.history__highlights li + li {
+  margin-top: 0.35em;
+}
+
+.history__highlights li::before {
+  content: "";
+  position: absolute;
+  left: -1.05em;
+  top: 0.8em;
+  width: 0.45em;
+  height: 1px;
+  background: var(--ink-soft);
+}
+
+.about__interests {
+  max-width: 46ch;
+  margin: 0;
+  color: var(--prose);
+}
+
+/* The closing line, with the one action on the page. */
+.about-close {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem 2.5rem;
+  margin-top: var(--section);
+  padding-top: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.about-close::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--gutter);
+  right: var(--gutter);
+  height: 1px;
+  background: var(--rule);
+}
+
+.about-close__line {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 1.5rem + 2vw, 3.25rem);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: 0.012em;
+  text-transform: uppercase;
+  color: var(--print);
+  text-wrap: balance;
+}
+
+/* =============================================================== search == */
+
+.search-form {
+  max-width: 42rem;
+  margin-top: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+.search-form__label {
+  display: block;
+  margin-bottom: 0.65rem;
+}
+
+.search-form__row {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.search-form__input {
+  --placeholder: var(--ink-faint);
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 2.9rem;
+  padding: 0.55rem 0.95rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 0;
+  background: var(--room-2);
+  color: var(--print);
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  line-height: 1.3;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: border-color var(--d-micro) var(--ease);
+}
+
+.search-form__input::placeholder {
+  color: var(--placeholder);
+  opacity: 1;
+}
+
+.search-form__input:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .search-form__input:hover {
+    border-color: var(--ink-faint);
+  }
+}
+
+.search-hint {
+  margin: 0;
+}
+
+.search-count {
+  margin: 0 0 1.25rem;
+}
+
+/* ======================================================== status pages ==
+   Not found and errors: the room goes to black and one intertitle says what
+   happened, in a thin double frame, with the ways on below it. */
+
+.status-page {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: clamp(1.75rem, 4vw, 2.75rem);
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: clamp(3rem, 8vw, 6rem) var(--gutter);
+  text-align: center;
+}
+
+/* Inside the site (an unknown slug) the bar and credits are already there. */
+.status-page--inset {
+  min-height: 0;
+  padding-block: var(--section);
+}
+
+.status-page__card {
+  width: min(100%, 42rem);
+  padding: clamp(2.75rem, 7vw, 4.5rem) clamp(1.5rem, 6vw, 4rem);
+  background: radial-gradient(110% 90% at 50% 42%, #272320 0%, #110f0d 58%, #0a0908 100%);
+  box-shadow: inset 0 0 0 1px var(--rule), inset 0 0 0 9px #0a0908, inset 0 0 0 10px var(--rule-strong);
+}
+
+.status-page__card > * {
+  margin: 0;
+}
+
+.status-page__card .status-page__title {
+  margin-top: 1.1rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 1.6rem + 4vw, 4.5rem);
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--print);
+  text-wrap: balance;
+}
+
+.status-page__card .status-page__body {
+  max-width: 38ch;
+  margin: 1.35rem auto 0;
+  color: var(--ink-soft);
+  text-wrap: pretty;
+}
+
+.status-page__card .status-page__digest {
+  margin-top: 1.5rem;
+}
+
+.status-page__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 1.4rem;
+  max-width: 40rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.status-page__links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: color var(--d-micro) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .status-page__links a:hover {
+    color: var(--print);
+    text-decoration: underline;
+    text-decoration-color: var(--red);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
+  }
+}
+
+.status-page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+/* ============================================================ skeletons == */
+
+.skel__frame {
+  animation: breathe 1.8s ease-in-out infinite alternate;
+}
+
+.skel__stack {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.skel__prose {
+  display: grid;
+  gap: 1.75rem;
+  max-width: var(--measure);
+}
+
+.skel__para {
+  display: grid;
+  gap: 0.75rem;
+}
+
+/* Without JavaScript. A page slower than its loading state is streamed: the
+   skeleton is sent first, and the page follows at the end of the body in a
+   hidden chunk (React's `<div hidden id="S:n">`) that a script swaps in. With
+   no scripts that swap never happens, even in prerendered HTML. So, only while
+   <html> still carries .no-js (the boot script removes it before first paint
+   whenever JavaScript runs): hide the skeleton, show the chunk, and put it
+   back above the credits. Tailwind's preflight hides [hidden] with an
+   important rule in its base layer, which only a more specific important
+   rule in the same layer can answer. */
+.no-js .skel {
+  display: none;
+}
+
+.no-js body {
+  display: flex;
+  flex-direction: column;
+}
+
+.no-js body > .credits {
+  order: 1;
+}
+
+@layer base {
+  .no-js body > div[hidden][id^="S:"] {
+    display: block !important;
+  }
+}
+
+/* ======================================================= reduced motion == */
+
+@media (prefers-reduced-motion: reduce) {
+  .skel__frame {
+    animation: none;
+  }
+
+  .lead-plate .frame,
+  .plate .frame,
+  .story__poster .frame,
+  .strip-cell__frame > :is(img, video),
+  .embed__mark {
+    transition: none;
+  }
+}

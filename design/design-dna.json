@@ -1,0 +1,265 @@
+{
+  "meta": {
+    "name": "Draft to Ink",
+    "description": "Personal site of Doğukan Topçu, an engineer who also draws. Cool drafting paper and graphite with one accent hue, blue pencil. Light theme is a sketch sheet, dark theme is a blueprint. Construction lines arrive in blue and are inked as the visitor scrolls.",
+    "source_references": [
+      "Described style, no image reference. Owner chose the 'Draft to Ink' direction in the scroll-craft interview (2026-09-20).",
+      "Comics production practice: non-photo blue underdrawing under black ink",
+      "ISO engineering drawing sheets: border, zone ticks, dimension lines, title block",
+      "Cyanotype and blueprint prints for the dark theme"
+    ],
+    "created_at": "2026-09-21"
+  },
+  "design_system": {
+    "color": {
+      "palette_type": "monochromatic",
+      "primary": { "hex": "#14181D", "role": "Graphite ink. All text, rules, inked strokes, filled buttons." },
+      "secondary": { "hex": "#F1F3F4", "role": "Drafting paper. The page ground in the light theme." },
+      "accent": { "hex": "#2250C4", "role": "Blue pencil. Links, focus, drafted (not yet inked) strokes, the single interactive hue. Dark theme uses the same hue lighter: #8FB4FF." },
+      "neutral": {
+        "scale": ["#FCFDFD", "#F8F9FA", "#F1F3F4", "#E3E7EA", "#C9CFD5", "#8B949E", "#4E5661", "#2A3038", "#14181D"],
+        "usage": "Lightest three are paper surfaces. #E3E7EA and #C9CFD5 are hairlines and rules. #4E5661 is secondary text (6.9:1 on paper). #14181D is ink. Cool-tinted throughout, never flat gray, never warm."
+      },
+      "semantic": {
+        "success": "#2F7D5C",
+        "warning": "#A86A12",
+        "error": "#B93A34",
+        "info": "#2250C4"
+      },
+      "surface": {
+        "background": "#F1F3F4",
+        "card": "#F8F9FA",
+        "elevated": "#FCFDFD"
+      },
+      "contrast_strategy": "Dark-on-light dominant. Ink on paper at 15:1, secondary text at 6.9:1, accent at 6.3:1. Dark theme (blueprint) inverts to #E4EAF4 on #0C1422 with the accent lifted to #8FB4FF. One accent hue, two lightnesses, keyed to the ground.",
+      "dark_theme": {
+        "background": "#0C1422",
+        "card": "#111B2D",
+        "elevated": "#16223A",
+        "ink": "#E4EAF4",
+        "ink_soft": "#9AA8BD",
+        "hairline": "#22314A",
+        "accent": "#8FB4FF",
+        "accent_ink": "#0C1422",
+        "pencil": "#5B86DA",
+        "semantic": { "success": "#6CC79F", "warning": "#E3B25A", "error": "#F08A84", "info": "#8FB4FF" }
+      },
+      "pencil": {
+        "light": "#5F8FE6",
+        "dark": "#5B86DA",
+        "role": "Decorative construction strokes only, never text. Same hue as the accent."
+      }
+    },
+    "typography": {
+      "type_scale": {
+        "display": { "size": "clamp(2.75rem, 1.5rem + 6vw, 6.25rem)", "weight": "800", "line_height": "0.96", "tracking": "-0.035em" },
+        "heading_1": { "size": "clamp(2.125rem, 1.5rem + 3vw, 3.5rem)", "weight": "750", "line_height": "1.02", "tracking": "-0.03em" },
+        "heading_2": { "size": "clamp(1.625rem, 1.3rem + 1.5vw, 2.375rem)", "weight": "700", "line_height": "1.1", "tracking": "-0.022em" },
+        "heading_3": { "size": "clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem)", "weight": "650", "line_height": "1.22", "tracking": "-0.012em" },
+        "body": { "size": "1.0625rem", "weight": "400", "line_height": "1.7", "tracking": "0" },
+        "body_small": { "size": "0.9375rem", "weight": "400", "line_height": "1.6", "tracking": "0" },
+        "caption": { "size": "0.8125rem", "weight": "400", "line_height": "1.45", "tracking": "0.005em" },
+        "overline": { "size": "0.75rem", "weight": "500", "line_height": "1.2", "tracking": "0.1em" }
+      },
+      "font_families": {
+        "heading": "Archivo (variable, width axis 62 to 125). Display set wide (wdth 112 to 125) and heavy.",
+        "body": "IBM Plex Sans",
+        "mono": "IBM Plex Mono"
+      },
+      "font_style_notes": "Archivo expanded and heavy reads like title-block lettering and a film title card at once. IBM Plex Sans is an engineered grotesque with real italics, comfortable for long lessons and fiction. IBM Plex Mono is used only for code, dimensions, dates and drawing labels, never as a costume. Emphasis inside a headline uses the same family (italic or weight), never a second face."
+    },
+    "spacing": {
+      "base_unit": "4px",
+      "scale": [4, 8, 12, 16, 24, 32, 48, 64, 96, 128, 192],
+      "content_density": "comfortable",
+      "section_rhythm": "Fluid section padding clamp(4.5rem, 9vw, 10rem). More space above a heading than below it. Reading pages tighten to a 68ch measure with generous leading."
+    },
+    "layout": {
+      "grid_system": "12-column CSS grid, content left-anchored, wide right margin used for marginalia (dates, dimensions, table of contents)",
+      "max_content_width": "1320px",
+      "columns": 12,
+      "gutter": "clamp(1.25rem, 4vw, 3.5rem)",
+      "breakpoints": { "sm": "640px", "md": "768px", "lg": "1024px", "xl": "1280px", "2xl": "1536px" },
+      "alignment_tendency": "asymmetric"
+    },
+    "shape": {
+      "border_radius": { "small": "0px", "medium": "0px", "large": "2px", "pill": "0px" },
+      "border_usage": "subtle 1px",
+      "divider_style": "1px hairline rules, used sparsely. Frames are drawn: 1px box with corner ticks. Nothing is rounded."
+    },
+    "elevation": {
+      "shadow_style": "none",
+      "levels": {
+        "low": "0 0 0 1px color-mix(in oklab, #14181D 12%, transparent)",
+        "medium": "0 1px 2px rgb(20 24 29 / 0.06), 0 10px 28px -14px rgb(20 24 29 / 0.22)",
+        "high": "0 2px 4px rgb(20 24 29 / 0.08), 0 24px 60px -24px rgb(20 24 29 / 0.32)"
+      },
+      "depth_cues": "overlapping layers"
+    },
+    "iconography": {
+      "style": "outline, drawn feel",
+      "stroke_weight": "1.5px (Phosphor regular)",
+      "size_scale": [16, 20, 24],
+      "preferred_set": "@phosphor-icons/react"
+    },
+    "motion": {
+      "easing": "cubic-bezier(0.23, 1, 0.32, 1)",
+      "duration_scale": { "micro": "140ms", "normal": "240ms", "macro": "640ms" },
+      "entrance_pattern": "Draft then ink. Outline or blue stroke first, solid ink wiping in left to right a beat later. Flow content rises 12px with opacity.",
+      "exit_pattern": "Opacity only.",
+      "philosophy": "cinematic"
+    },
+    "components": {
+      "button_style": "Sharp rectangle, 1px ink border, mono-free label in Plex Sans 500. Primary is filled ink with paper text. On hover the fill wipes in from the left (ink arriving). Press translates 1px.",
+      "input_style": "Sharp 1px box on paper surface, label above, helper and error below, accent focus ring with 2px offset.",
+      "card_style": "Avoided. Content is grouped by space and hairlines. Images sit in drawn frames with corner ticks; an image that does not exist yet renders as a blue drafted frame with a diagonal cross.",
+      "navigation_pattern": "Site pages: one-line top bar, wordmark left, links right, hairline under it, sheet-style menu on phones. Home: a clickable waypoint map rail, no bar.",
+      "modal_style": "Sharp paper sheet over a dimmed ground, hairline border, medium shadow. Used for the gallery lightbox and the phone menu.",
+      "list_style": "Rows separated by sparse hairlines, date or dimension in the margin column in mono.",
+      "component_notes": "Links carry a 1px underline that thickens on hover. Tags are plain mono text separated by space, never pills. Ratings are drawn ticks, not stars in a track."
+    }
+  },
+  "design_style": {
+    "aesthetic": {
+      "mood": ["precise", "warm", "unhurried", "curious"],
+      "visual_metaphor": "A single drafting sheet: blue pencil underdrawing that gets inked",
+      "era_influence": "Mid-century drafting rooms, comics bullpens, cyanotype prints",
+      "genre": "editorial technical drawing",
+      "personality_traits": ["meticulous", "candid", "well-read", "quietly playful"],
+      "adjectives": ["drafted", "inked", "measured", "paper-like", "legible"]
+    },
+    "visual_language": {
+      "complexity": "moderate",
+      "ornamentation": "subtle accents",
+      "whitespace_usage": "Generous. Empty paper is part of the drawing.",
+      "visual_weight_distribution": "Heavy display lettering top-left, light line work to the right and in the margins",
+      "focal_strategy": "progressive reveal",
+      "contrast_level": "High between ink and paper, low between pencil and paper",
+      "texture_usage": "Fine paper grain at 4 percent on a fixed overlay. No gradients."
+    },
+    "composition": {
+      "hierarchy_method": "typographic hierarchy",
+      "balance_type": "asymmetric",
+      "flow_direction": "Left to right within a view, top-left to bottom-right across the sheet, ending at the title block",
+      "grouping_strategy": "Proximity first, hairlines second, frames only for images",
+      "negative_space_role": "Unused paper. It is what makes the drawn parts read as drawn."
+    },
+    "imagery": {
+      "photo_treatment": "Photographs are shown untouched inside drawn frames. Category fallback covers are high-key still lifes on cool gray paper.",
+      "illustration_style": "Geometric technical construction only: lines, arcs, hatching, dimension lines. No figurative illustration is generated; his own drawings are the only drawings.",
+      "graphic_elements": "Sheet border with zone ticks, dimension lines with real values, centre lines, registration marks, the flown route",
+      "pattern_usage": "45 degree hatching for fills, ruled lines for the notebook",
+      "image_shape": "Sharp rectangles in 3:2, 4:5 and 1:1"
+    },
+    "interaction_feel": {
+      "feedback_style": "Ink arrives: fills wipe in, underlines thicken",
+      "hover_behavior": "Left to right ink wipe on buttons, underline weight on links, frame corner ticks extend on image links",
+      "transition_personality": "smooth glide",
+      "loading_style": "Drafted skeletons: blue 1px outlines of the final layout with a diagonal cross in image slots",
+      "microinteraction_density": "Low. One per component, none ambient."
+    },
+    "brand_voice_in_ui": {
+      "tone": "First person, plain, specific",
+      "formality": "Conversational but exact",
+      "cta_style": "direct imperative",
+      "empty_state_approach": "An honest drafted frame with one line saying what will go there",
+      "error_tone": "Plain and practical, says what happened and what to do"
+    }
+  },
+  "visual_effects": {
+    "overview": {
+      "effect_intensity": "moderate",
+      "performance_tier": "medium",
+      "fallback_strategy": "reduce to CSS: without JavaScript or under reduced motion the home page is a static document with each construction as an inline, fully inked SVG",
+      "primary_technology": "Canvas 2D"
+    },
+    "background_effects": {
+      "type": "none",
+      "description": "Flat paper ground with a static grain overlay. No animated background.",
+      "technology": "CSS, inline SVG noise",
+      "params": { "color_palette": ["#F1F3F4", "#0C1422"], "speed": "0", "density": "0.04 opacity grain", "opacity": "0.04", "blend_mode": "multiply (light), screen (dark)" }
+    },
+    "particle_systems": {
+      "enabled": false,
+      "type": "none",
+      "description": "Not used.",
+      "technology": "none",
+      "params": { "count": 0, "shape": "none", "size_range": "none", "movement_pattern": "none", "color_behavior": "none", "interaction": "none", "spawn_area": "none" }
+    },
+    "3d_elements": {
+      "enabled": false,
+      "type": "none",
+      "description": "Not used. Depth comes from drawing layers at different camera rates.",
+      "technology": "none",
+      "params": { "renderer": "none", "lighting": "none", "camera": "none", "materials": "none", "geometry": "none", "post_processing": [], "interaction_model": "none" }
+    },
+    "shader_effects": {
+      "enabled": false,
+      "type": "none",
+      "description": "Not used.",
+      "technology": "none",
+      "params": { "uniforms": "none", "vertex_manipulation": "none", "fragment_output": "none", "noise_type": "none", "distortion": "none" }
+    },
+    "scroll_effects": {
+      "parallax": {
+        "enabled": true,
+        "layers": "3",
+        "depth_range": "Far guide grid at 0.86x camera travel, main constructions at 1x, near vellum marks at 1.18x",
+        "speed_curve": "linear in camera space, camera itself lerped at 0.12 per frame"
+      },
+      "scroll_triggered_animations": {
+        "enabled": true,
+        "trigger_points": "Seven waypoints on one worldflight track (weights 1.0, 1.3, 1.1, 1.3, 1.2, 1.3, 1.9 viewport-heights)",
+        "animation_type": "draw-SVG",
+        "scrub_behavior": "scrubbed"
+      },
+      "scroll_morphing": {
+        "enabled": true,
+        "description": "Every stroke morphs from jittered blue pencil to a steady ink line as the camera arrives; headlines morph from blue outline to solid ink."
+      }
+    },
+    "text_effects": {
+      "type": "gradient-fill",
+      "description": "Headline starts as a 1px blue outline and fills with ink left to right, driven by its copy window progress. Implemented with background-clip: text and a hard-stop gradient, not a decorative gradient.",
+      "technology": "CSS custom property written per frame by page-local JS",
+      "params": { "split_strategy": "by-line", "animation_per_unit": "outline to fill wipe", "stagger": "0.12 of the window per line", "effect_style": "ink arriving" }
+    },
+    "cursor_effects": {
+      "enabled": false,
+      "type": "none",
+      "description": "No custom cursor. Fine pointers lean the far and near drawing layers by a few pixels.",
+      "params": { "shape": "none", "size": "none", "blend_mode": "none", "trail": "none", "interaction_zone": "whole stage, max 10px layer offset" }
+    },
+    "image_effects": {
+      "type": "reveal-clip",
+      "description": "Images ink into their drafted frames with a left to right clip wipe on first view.",
+      "technology": "CSS clip-path with IntersectionObserver",
+      "params": { "filter_pipeline": "none", "hover_transform": "none, frame ticks extend instead", "reveal_animation": "clip-path inset wipe, 640ms ease-out", "distortion_type": "none" }
+    },
+    "glassmorphism_neumorphism": {
+      "enabled": false,
+      "style": "none",
+      "params": { "blur_radius": "0", "transparency": "0", "border_treatment": "none", "shadow_type": "none", "light_source_angle": "none" }
+    },
+    "canvas_drawings": {
+      "enabled": true,
+      "type": "generative-lines",
+      "description": "The home page world: one 7200 by 4800 unit drafting sheet of geometric constructions (career timeline, layer schematic, isometric blocks, notebook, lens and aperture, thirds grid, comic panels, sheet border and title block), drawn as polylines with a seeded pencil jitter and an ink pass, viewed through a scroll-driven camera.",
+      "technology": "Canvas 2D",
+      "params": {
+        "draw_method": "Flattened polylines drawn by arc length, blue pass then ink pass",
+        "animation_loop": "requestAnimationFrame, idles when the camera has settled and nothing changed",
+        "color_scheme": "Reads --paper, --ink and --pencil from CSS so both themes share one renderer",
+        "responsiveness": "ResizeObserver, device pixel ratio capped at 2, separate portrait camera keyframes",
+        "interaction": "Scroll drives the camera and the draw progress; fine pointers lean the layers slightly"
+      }
+    },
+    "svg_animations": {
+      "enabled": true,
+      "type": "path-draw",
+      "description": "Static mode and inner pages render the same constructions as inline SVG. Small marks (underlines, frame ticks) draw on hover.",
+      "params": { "animation_method": "stroke-dashoffset with pathLength=1", "path_morphing": "none", "stroke_animation": "draw on", "filter_effects": "none" }
+    },
+    "composite_notes": "The scroll-craft engine supplies only the worldflight track, the waypoint events and the copy windows. The drawn world, its camera, the ink grammar on headlines and the map rail are page-local. Grain sits on a fixed pointer-events-none overlay, never on the moving canvas. Everything collapses to a static, fully inked document without JavaScript or under prefers-reduced-motion."
+  }
+}

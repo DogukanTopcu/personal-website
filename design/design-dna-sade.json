@@ -1,0 +1,80 @@
+{
+  "meta": {
+    "name": "Sade",
+    "description": "Third direction, chosen by the owner on 2026-09-27: plain and focused. Content first, one column, good type, light and dark. No concept, no metaphor; the site should simply do its job well.",
+    "source_references": ["Owner picked mockup 1 ('Sade ve odaklı') from six directions", "Functionalist minimal (frontend-design: Dieter Rams)"],
+    "created_at": "2026-09-27"
+  },
+  "design_system": {
+    "color": {
+      "palette_type": "monochromatic",
+      "primary": { "hex": "#111113", "role": "Text and primary buttons" },
+      "secondary": { "hex": "#FCFCFC", "role": "Page ground in light mode" },
+      "accent": { "hex": "#1F5FD6", "role": "Focus rings, the active nav item, link hover. Dark mode #7EA6FF." },
+      "neutral": {
+        "scale": ["#FFFFFF", "#FCFCFC", "#F5F5F6", "#EBEBED", "#DCDCE0", "#6C6E76", "#5D5F66", "#111113"],
+        "usage": "#5D5F66 secondary text (6.2:1), #6C6E76 dates and labels (4.96:1), #EBEBED and #DCDCE0 hairlines. Neutral grey with a faint cool tint throughout."
+      },
+      "semantic": { "success": "#1E7A4F", "warning": "#9A6508", "error": "#B42318", "info": "#1F5FD6" },
+      "surface": { "background": "#FCFCFC", "card": "#FFFFFF", "elevated": "#F5F5F6" },
+      "contrast_strategy": "Dark on light, light on dark; every text colour clears 4.5:1 on its ground in both modes.",
+      "dark_theme": { "background": "#0E0F11", "card": "#1B1C20", "elevated": "#16171A", "ink": "#ECECEE", "ink_soft": "#A2A4AB", "ink_faint": "#8A8C93", "rule": "#232428", "accent": "#7EA6FF" }
+    },
+    "typography": {
+      "type_scale": {
+        "display": { "size": "2rem", "weight": "600", "line_height": "1.15", "tracking": "-0.03em" },
+        "heading_1": { "size": "clamp(1.9rem, 1.6rem + 1.2vw, 2.4rem)", "weight": "600", "line_height": "1.12", "tracking": "-0.028em" },
+        "heading_2": { "size": "1.4rem", "weight": "600", "line_height": "1.25", "tracking": "-0.018em" },
+        "heading_3": { "size": "1.125rem", "weight": "600", "line_height": "1.35", "tracking": "-0.01em" },
+        "body": { "size": "1rem", "weight": "400", "line_height": "1.7", "tracking": "0" },
+        "body_small": { "size": "0.9375rem", "weight": "400", "line_height": "1.6", "tracking": "0" },
+        "caption": { "size": "0.8125rem", "weight": "400", "line_height": "1.5", "tracking": "0" },
+        "overline": { "size": "0.8125rem", "weight": "500", "line_height": "1.4", "tracking": "0" }
+      },
+      "font_families": { "heading": "Geist", "body": "Geist", "mono": "Geist Mono (dates, labels, code)" },
+      "font_style_notes": "One family. Hierarchy from size and weight, never from a second face. Sentence case everywhere, no letter-spaced capitals."
+    },
+    "spacing": { "base_unit": "4px", "scale": [4, 8, 12, 16, 24, 32, 48, 64, 96], "content_density": "comfortable", "section_rhythm": "4rem between home sections, 3rem between page sections" },
+    "layout": { "grid_system": "One centred container, 64rem, text columns capped at 40 to 44rem", "max_content_width": "64rem", "columns": 1, "gutter": "clamp(1.25rem, 4vw, 2rem)", "breakpoints": { "sm": "640px", "md": "768px", "lg": "1024px" }, "alignment_tendency": "left aligned in a centred container" },
+    "shape": { "border_radius": { "small": "6px", "medium": "8px", "large": "12px", "pill": "999px" }, "border_usage": "subtle 1px", "divider_style": "1px hairlines, used sparingly" },
+    "elevation": { "shadow_style": "none", "levels": { "low": "0 0 0 1px #EBEBED", "medium": "0 1px 2px rgb(17 17 19 / 0.06), 0 8px 24px -12px rgb(17 17 19 / 0.18)", "high": "0 2px 4px rgb(17 17 19 / 0.08), 0 20px 48px -20px rgb(17 17 19 / 0.28)" }, "depth_cues": "color intensity" },
+    "iconography": { "style": "outline", "stroke_weight": "1.5px", "size_scale": [16, 18, 20], "preferred_set": "@phosphor-icons/react" },
+    "motion": { "easing": "cubic-bezier(0.23, 1, 0.32, 1)", "duration_scale": { "micro": "120ms", "normal": "200ms", "macro": "500ms" }, "entrance_pattern": "Sections fade up 8px once, 40ms apart", "exit_pattern": "none", "philosophy": "minimal functional" },
+    "components": {
+      "button_style": "8px radius, 40px tall. Primary: ink fill. Secondary: hairline border on white.",
+      "input_style": "8px radius, hairline border, accent focus ring",
+      "card_style": "Avoided. Lists and spacing group things.",
+      "navigation_pattern": "One line: name left, five links and a theme toggle right; a dropdown panel on phones",
+      "modal_style": "White sheet, 12px radius, medium shadow",
+      "list_style": "Rows with the title left and the date in mono on the right; a soft background on hover",
+      "component_notes": "Tags are plain text. Placeholders are quiet grey frames with one line of text."
+    }
+  },
+  "design_style": {
+    "aesthetic": { "mood": ["calm", "clear", "honest"], "visual_metaphor": "none", "era_influence": "contemporary", "genre": "developer portfolio and personal publication", "personality_traits": ["precise", "approachable", "unhurried"], "adjectives": ["plain", "readable", "quiet", "fast"] },
+    "visual_language": { "complexity": "minimal", "ornamentation": "none", "whitespace_usage": "Generous", "visual_weight_distribution": "Top-left, then down the column", "focal_strategy": "single hero element", "contrast_level": "High for text, low for structure", "texture_usage": "none" },
+    "composition": { "hierarchy_method": "typographic hierarchy", "balance_type": "asymmetric", "flow_direction": "Top to bottom", "grouping_strategy": "Proximity first, hairlines second", "negative_space_role": "Rest" },
+    "imagery": { "photo_treatment": "Unaltered, rounded 10px", "illustration_style": "none", "graphic_elements": "none", "pattern_usage": "none", "image_shape": "3:2 and 4:5" },
+    "interaction_feel": { "feedback_style": "Colour and underline changes", "hover_behavior": "Soft row background, link underline", "transition_personality": "snappy", "loading_style": "Grey skeleton blocks", "microinteraction_density": "Low" },
+    "brand_voice_in_ui": { "tone": "First person, plain", "formality": "Conversational", "cta_style": "direct imperative", "empty_state_approach": "One line saying what will be there", "error_tone": "Plain and practical" }
+  },
+  "visual_effects": {
+    "overview": { "effect_intensity": "none", "performance_tier": "lightweight", "fallback_strategy": "Nothing to fall back from", "primary_technology": "CSS only" },
+    "background_effects": { "type": "none", "description": "Flat ground", "technology": "none", "params": { "color_palette": ["#FCFCFC", "#0E0F11"], "speed": "0", "density": "0", "opacity": "1", "blend_mode": "normal" } },
+    "particle_systems": { "enabled": false, "type": "none", "description": "none", "technology": "none", "params": { "count": 0, "shape": "none", "size_range": "none", "movement_pattern": "none", "color_behavior": "none", "interaction": "none", "spawn_area": "none" } },
+    "3d_elements": { "enabled": false, "type": "none", "description": "none", "technology": "none", "params": { "renderer": "none", "lighting": "none", "camera": "none", "materials": "none", "geometry": "none", "post_processing": [], "interaction_model": "none" } },
+    "shader_effects": { "enabled": false, "type": "none", "description": "none", "technology": "none", "params": { "uniforms": "none", "vertex_manipulation": "none", "fragment_output": "none", "noise_type": "none", "distortion": "none" } },
+    "scroll_effects": {
+      "parallax": { "enabled": false, "layers": "0", "depth_range": "none", "speed_curve": "none" },
+      "scroll_triggered_animations": { "enabled": true, "trigger_points": "Each home section, once, on entry", "animation_type": "fade-up", "scrub_behavior": "triggered" },
+      "scroll_morphing": { "enabled": false, "description": "none" }
+    },
+    "text_effects": { "type": "none", "description": "none", "technology": "none", "params": { "split_strategy": "none", "animation_per_unit": "none", "stagger": "none", "effect_style": "none" } },
+    "cursor_effects": { "enabled": false, "type": "none", "description": "none", "params": { "shape": "none", "size": "none", "blend_mode": "none", "trail": "none", "interaction_zone": "none" } },
+    "image_effects": { "type": "none", "description": "none", "technology": "none", "params": { "filter_pipeline": "none", "hover_transform": "none", "reveal_animation": "none", "distortion_type": "none" } },
+    "glassmorphism_neumorphism": { "enabled": false, "style": "none", "params": { "blur_radius": "0", "transparency": "0", "border_treatment": "none", "shadow_type": "none", "light_source_angle": "none" } },
+    "canvas_drawings": { "enabled": false, "type": "none", "description": "none", "technology": "none", "params": { "draw_method": "none", "animation_loop": "none", "color_scheme": "none", "responsiveness": "none", "interaction": "none" } },
+    "svg_animations": { "enabled": false, "type": "none", "description": "none", "params": { "animation_method": "none", "path_morphing": "none", "stroke_animation": "none", "filter_effects": "none" } },
+    "composite_notes": "Deliberately effect-free. The owner rejected two concept-led designs; this one earns its first impression through type, spacing and real content."
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "full_name": "Doğukan Topçu",
+  "headline": "Software engineer who also draws.",
+  "intro": "I build backends and study small language models. The rest of the time I draw in charcoal, take photographs, and write here to learn things twice.",
+  "location": "İzmir, Türkiye",
+  "email": "",
+  "avatar_url": null,
+  "avatar_alt": "",
+  "resume_url": null,
+  "bio_md": "I am a software engineer living in İzmir, Türkiye. I graduated from the Computer Engineering department of İzmir Institute of Technology in 2026.\n\nI work as a Junior Backend Developer in the AI Lab at HubX, on the MarketingX project, and I am a partner at WaterLog. During my undergraduate years I was president of the university's Software Society for three years.\n\nOver seven years I have built for the web, for games, for the desktop and for mobile. That is how I became comfortable across React, Next.js, NestJS, Fastify, FastAPI, Django, Spring Boot, .NET, Unity, Electron, React Native and Flutter, and in C, C#, Java, Python, JavaScript and TypeScript. I care about software architecture as much as about the code itself.\n\nAlongside software engineering I am growing on the AI and ML side: image understanding, generative AI, small language models and reinforcement learning. My graduation thesis studied how small language models have developed, and explored hybrid architectures that could bring them closer to the level of large language models.\n\n## Why this site exists\n\n- To keep my work in one place, like a CV that shows instead of tells.\n- To reinforce what I know by writing it down.\n- To motivate myself to make new things.\n- To improve my English by writing in it.\n- To push myself to keep learning new subjects.",
+  "now_md": "",
+  "socials": [
+    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/dogukantop%C3%A7u35/", "handle": "dogukantopçu35" },
+    { "label": "X", "url": "https://x.com/dogukantopcu35", "handle": "@dogukantopcu35" },
+    { "label": "YouTube", "url": "https://www.youtube.com/@dogukantopcu656", "handle": "@dogukantopcu656" }
+  ],
+  "skills": [
+    { "group": "Languages", "items": ["C", "C#", "Java", "Python", "JavaScript", "TypeScript"] },
+    { "group": "Frontend", "items": ["React", "Next.js", "HTML", "CSS", "SCSS", "Tailwind CSS"] },
+    { "group": "Backend", "items": ["NestJS", "Fastify", "FastAPI", "Django", "Spring Boot", ".NET"] },
+    { "group": "Mobile and desktop", "items": ["React Native", "Flutter", "Electron"] },
+    { "group": "Game development", "items": ["Unity"] },
+    { "group": "AI and ML", "items": ["Image understanding", "Generative AI", "Small language models", "Reinforcement learning"] },
+    { "group": "Practice", "items": ["Software architecture"] }
+  ],
+  "interests": ["Photography", "Reading", "Charcoal drawing", "Comics", "20th century films", "Sitcoms", "History"],
+  "home_copy": {},
+  "site_title": "Doğukan Topçu",
+  "site_description": "Software engineer in İzmir. Courses, essays, projects, stories, research and galleries.",
+  "site_url": "",
+  "og_image_url": null
+}

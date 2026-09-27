@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Paper",
+    "light": {
+      "file": "paper-light.webp",
+      "width": 1920,
+      "height": 1088
+    },
+    "dark": {
+      "file": "paper-dark.webp",
+      "width": 1920,
+      "height": 1088
+    },
+    "veil_light": 30,
+    "veil_dark": 20
+  },
+  {
+    "name": "Window light",
+    "light": {
+      "file": "window-light.webp",
+      "width": 1920,
+      "height": 1088
+    },
+    "dark": {
+      "file": "window-dark.webp",
+      "width": 2560,
+      "height": 1429
+    },
+    "veil_light": 82,
+    "veil_dark": 60
+  },
+  {
+    "name": "Mist",
+    "light": {
+      "file": "mist-light.webp",
+      "width": 2560,
+      "height": 1429
+    },
+    "dark": {
+      "file": "mist-dark.webp",
+      "width": 2560,
+      "height": 1429
+    },
+    "veil_light": 80,
+    "veil_dark": 68
+  },
+  {
+    "name": "Sea",
+    "light": {
+      "file": "sea-light.webp",
+      "width": 2560,
+      "height": 1429
+    },
+    "dark": {
+      "file": "sea-dark.webp",
+      "width": 2560,
+      "height": 1429
+    },
+    "veil_light": 80,
+    "veil_dark": 30
+  }
+]
